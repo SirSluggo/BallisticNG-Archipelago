@@ -1,0 +1,42 @@
+BALLISTICNG ARCHIPELAGO - v0.36.1 (test build)
+
+1. INSTALL PYTHON FIRST
+   Install Python 3.11 or newer from https://www.python.org/downloads/windows/
+   Include the Python launcher (py) in the installer.
+   Already installed? You can skip this step.
+
+2. INSTALL THE MOD
+   Close BallisticNG and its AP background client.
+
+   Copy the BallisticNGArchipelago folder into:
+   BallisticNG\User\Mods\Code Mods\
+
+   If updating, back up the full existing mod folder first.
+   Do not install two copies. Existing saves stay in place.
+
+3. CONNECT IN THE GAME
+   Enable BallisticNGArchipelago in the game's code-mod menu.
+   At the main menu press F2, enter your server, port
+   and slot name, then press Connect. First connection automatically sets
+   up the Python client and needs internet access. Allow a few minutes.
+   Restart into the connected AP save when prompted. F3 opens Chat, Hints & Log.
+
+HOSTING YOUR OWN SEED?
+   Install ballisticng.apworld in Archipelago. Use BallisticNG.yaml to
+   generate a seed, then host the generated room. Existing compatible
+   seeds still work; this update does not require a new seed.
+
+SAVES
+   Each AP seed/slot has separate local progress. F2 can return to your
+   normal save even if the server is unavailable. AP saves do not sync
+   automatically between computers. Keep backups when updating or moving PCs.
+
+SETUP TROUBLE?
+   See Logs\setup-panel.log in the installed mod folder. Setup-Panel.cmd is a
+   manual repair option. Python dependencies stay inside the mod's .venv;
+   setup does not install them globally or download Python for you.
+
+KNOWN ISSUE: returning from the idle menu demo can crash. Under investigation.
+
+This is a development test build. Developer-Source.zip contains source,
+troubleshooting notes, test details and AI disclosure. Harmony license included.

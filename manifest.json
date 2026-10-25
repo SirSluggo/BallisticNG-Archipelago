@@ -1,0 +1,2952 @@
+{
+  "protocol": 30,
+  "game": "BallisticNG",
+  "campaigns": [
+    "Breeze",
+    "Techno",
+    "Urban",
+    "Reflex",
+    "Ascension",
+    "Descension",
+    "Speed Freak",
+    "Zen Zeus"
+  ],
+  "access_items": {
+    "Techno": 21592000,
+    "Urban": 21592001,
+    "Reflex": 21592002,
+    "Ascension": 21592003,
+    "Descension": 21592004,
+    "Speed Freak": 21592005,
+    "Zen Zeus": 21592006,
+    "Finale A": 21592007,
+    "Finale B": 21592008,
+    "Finale C": 21592009
+  },
+  "filler_id": 21592999,
+  "events": [
+    {
+      "id": 21591000,
+      "key": "bng05:21591000",
+      "campaign": "Breeze",
+      "event": "Cassandra Introduction Race",
+      "group": 0,
+      "index": 0,
+      "levels": [
+        "Cassandra_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591001,
+      "key": "bng05:21591001",
+      "campaign": "Breeze",
+      "event": "Zephyr Ridge Introduction Race",
+      "group": 0,
+      "index": 1,
+      "levels": [
+        "ZephyrRidge_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591002,
+      "key": "bng05:21591002",
+      "campaign": "Breeze",
+      "event": "Harpstone Introduction Race",
+      "group": 0,
+      "index": 2,
+      "levels": [
+        "Harpstone_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591003,
+      "key": "bng05:21591003",
+      "campaign": "Breeze",
+      "event": "Harpstone Pure Race",
+      "group": 1,
+      "index": 2,
+      "levels": [
+        "Harpstone_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591004,
+      "key": "bng05:21591004",
+      "campaign": "Breeze",
+      "event": "Breeze Tournament",
+      "group": 3,
+      "index": 2,
+      "levels": [
+        "Cassandra_Normal",
+        "ZephyrRidge_Normal",
+        "Harpstone_Normal"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591005,
+      "key": "bng05:21591005",
+      "campaign": "Techno",
+      "event": "Aciknovae Introduction Race",
+      "group": 0,
+      "index": 0,
+      "levels": [
+        "Aciknovae_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591006,
+      "key": "bng05:21591006",
+      "campaign": "Techno",
+      "event": "Luna Introduction Race",
+      "group": 0,
+      "index": 1,
+      "levels": [
+        "Luna_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591007,
+      "key": "bng05:21591007",
+      "campaign": "Techno",
+      "event": "Dover Introduction Race",
+      "group": 0,
+      "index": 2,
+      "levels": [
+        "Kbay_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591008,
+      "key": "bng05:21591008",
+      "campaign": "Techno",
+      "event": "Luna Pure Race",
+      "group": 2,
+      "index": 1,
+      "levels": [
+        "Luna_Normal"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591009,
+      "key": "bng05:21591009",
+      "campaign": "Techno",
+      "event": "Techno Tournament",
+      "group": 3,
+      "index": 2,
+      "levels": [
+        "Aciknovae_Normal",
+        "Luna_Normal",
+        "Kbay_Normal"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591010,
+      "key": "bng05:21591010",
+      "campaign": "Urban",
+      "event": "Ishtar Citadel Introduction Race",
+      "group": 0,
+      "index": 0,
+      "levels": [
+        "Ishtar_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591011,
+      "key": "bng05:21591011",
+      "campaign": "Urban",
+      "event": "Omega Harbour Introduction Race",
+      "group": 0,
+      "index": 1,
+      "levels": [
+        "Omega_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591012,
+      "key": "bng05:21591012",
+      "campaign": "Urban",
+      "event": "Utah Project Introduction Race",
+      "group": 0,
+      "index": 2,
+      "levels": [
+        "UtahProject_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591013,
+      "key": "bng05:21591013",
+      "campaign": "Urban",
+      "event": "Utah Project Pure Race",
+      "group": 2,
+      "index": 2,
+      "levels": [
+        "UtahProject_Normal"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591014,
+      "key": "bng05:21591014",
+      "campaign": "Urban",
+      "event": "Urban Tournament",
+      "group": 3,
+      "index": 2,
+      "levels": [
+        "Ishtar_Normal",
+        "Omega_Normal",
+        "UtahProject_Normal"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591015,
+      "key": "bng05:21591015",
+      "campaign": "Reflex",
+      "event": "Nova Split Introduction Race",
+      "group": 0,
+      "index": 0,
+      "levels": [
+        "Nova Split"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591016,
+      "key": "bng05:21591016",
+      "campaign": "Reflex",
+      "event": "Arrivon XI Introduction Race",
+      "group": 0,
+      "index": 1,
+      "levels": [
+        "Arrivon XI"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591017,
+      "key": "bng05:21591017",
+      "campaign": "Reflex",
+      "event": "Marina Rush Introduction Race",
+      "group": 0,
+      "index": 2,
+      "levels": [
+        "MarinaRush_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591018,
+      "key": "bng05:21591018",
+      "campaign": "Reflex",
+      "event": "Arrivon XI Pure Race",
+      "group": 3,
+      "index": 0,
+      "levels": [
+        "Arrivon XI"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591019,
+      "key": "bng05:21591019",
+      "campaign": "Reflex",
+      "event": "Reflex Tournament",
+      "group": 3,
+      "index": 2,
+      "levels": [
+        "Nova Split",
+        "Arrivon XI",
+        "MarinaRush_Normal"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591020,
+      "key": "bng05:21591020",
+      "campaign": "Ascension",
+      "event": "Cassandra Reverse Race",
+      "group": 0,
+      "index": 0,
+      "levels": [
+        "Cassandra_Reverse"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591021,
+      "key": "bng05:21591021",
+      "campaign": "Ascension",
+      "event": "Harpstone Reverse Race",
+      "group": 0,
+      "index": 1,
+      "levels": [
+        "Harpstone_Reverse"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591022,
+      "key": "bng05:21591022",
+      "campaign": "Ascension",
+      "event": "Luna Reverse Race",
+      "group": 0,
+      "index": 2,
+      "levels": [
+        "Luna_Reverse"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591023,
+      "key": "bng05:21591023",
+      "campaign": "Ascension",
+      "event": "Harpstone Reverse Pure Race",
+      "group": 1,
+      "index": 1,
+      "levels": [
+        "Harpstone_Reverse"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591024,
+      "key": "bng05:21591024",
+      "campaign": "Ascension",
+      "event": "Dover Reverse Race",
+      "group": 2,
+      "index": 0,
+      "levels": [
+        "Kbay_Reverse"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591025,
+      "key": "bng05:21591025",
+      "campaign": "Ascension",
+      "event": "Utah Project Reverse Race",
+      "group": 2,
+      "index": 1,
+      "levels": [
+        "UtahProject_Reverse"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591026,
+      "key": "bng05:21591026",
+      "campaign": "Ascension",
+      "event": "Ishtar Citadel Reverse Race",
+      "group": 2,
+      "index": 2,
+      "levels": [
+        "Ishtar_Reverse"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591027,
+      "key": "bng05:21591027",
+      "campaign": "Ascension",
+      "event": "Hyperions Ascension 1v1",
+      "group": 3,
+      "index": 1,
+      "levels": [
+        "UtahProject_Reverse"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591028,
+      "key": "bng05:21591028",
+      "campaign": "Ascension",
+      "event": "Ascension A Tournament",
+      "group": 4,
+      "index": 1,
+      "levels": [
+        "Cassandra_Reverse",
+        "Harpstone_Reverse",
+        "Luna_Reverse"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591029,
+      "key": "bng05:21591029",
+      "campaign": "Ascension",
+      "event": "Ascension B Tournament",
+      "group": 4,
+      "index": 2,
+      "levels": [
+        "Kbay_Reverse",
+        "UtahProject_Reverse",
+        "Ishtar_Reverse"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591030,
+      "key": "bng05:21591030",
+      "campaign": "Descension",
+      "event": "Nova Split Reverse Race",
+      "group": 0,
+      "index": 0,
+      "levels": [
+        "Nova Split Reverse"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591031,
+      "key": "bng05:21591031",
+      "campaign": "Descension",
+      "event": "Aciknovae Reverse Race",
+      "group": 0,
+      "index": 1,
+      "levels": [
+        "Aciknovae_Reverse"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591032,
+      "key": "bng05:21591032",
+      "campaign": "Descension",
+      "event": "Omega Harbour Reverse Race",
+      "group": 0,
+      "index": 2,
+      "levels": [
+        "Omega_Reverse"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591033,
+      "key": "bng05:21591033",
+      "campaign": "Descension",
+      "event": "Omega Harbour Pure Race",
+      "group": 1,
+      "index": 2,
+      "levels": [
+        "Omega_Reverse"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591034,
+      "key": "bng05:21591034",
+      "campaign": "Descension",
+      "event": "Arrivon XI Reverse Race",
+      "group": 2,
+      "index": 0,
+      "levels": [
+        "Arrivon XI Reverse"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591035,
+      "key": "bng05:21591035",
+      "campaign": "Descension",
+      "event": "Zephyr Ridge Reverse Race",
+      "group": 2,
+      "index": 1,
+      "levels": [
+        "ZephyrRidge_Reverse"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591036,
+      "key": "bng05:21591036",
+      "campaign": "Descension",
+      "event": "Marina Rush Reverse Race",
+      "group": 2,
+      "index": 2,
+      "levels": [
+        "MarinaRush_Reverse"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591037,
+      "key": "bng05:21591037",
+      "campaign": "Descension",
+      "event": "Scorpios Descension 1v1",
+      "group": 4,
+      "index": 0,
+      "levels": [
+        "ZephyrRidge_Reverse"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591038,
+      "key": "bng05:21591038",
+      "campaign": "Descension",
+      "event": "Decension A Tournament",
+      "group": 4,
+      "index": 1,
+      "levels": [
+        "Nova Split Reverse",
+        "Aciknovae_Reverse",
+        "Omega_Reverse"
+      ],
+      "speed": "Spectre",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591039,
+      "key": "bng05:21591039",
+      "campaign": "Descension",
+      "event": "Decension B Tournament",
+      "group": 4,
+      "index": 2,
+      "levels": [
+        "Arrivon XI Reverse",
+        "ZephyrRidge_Reverse",
+        "MarinaRush_Reverse"
+      ],
+      "speed": "Spectre",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591040,
+      "key": "bng05:21591040",
+      "campaign": "Speed Freak",
+      "event": "Cassandra Race",
+      "group": 0,
+      "index": 0,
+      "levels": [
+        "Cassandra_Normal"
+      ],
+      "speed": "Spectre",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591041,
+      "key": "bng05:21591041",
+      "campaign": "Speed Freak",
+      "event": "Nexuses Speed Freak 1v1",
+      "group": 1,
+      "index": 0,
+      "levels": [
+        "Cassandra_Normal"
+      ],
+      "speed": "Spectre",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591042,
+      "key": "bng05:21591042",
+      "campaign": "Speed Freak",
+      "event": "Aciknovae Double Damage Race",
+      "group": 2,
+      "index": 0,
+      "levels": [
+        "Aciknovae_Normal"
+      ],
+      "speed": "Spectre",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591043,
+      "key": "bng05:21591043",
+      "campaign": "Speed Freak",
+      "event": "Luna Reverse Afterburner Challenge",
+      "group": 2,
+      "index": 1,
+      "levels": [
+        "Luna_Reverse"
+      ],
+      "speed": "Spectre",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591044,
+      "key": "bng05:21591044",
+      "campaign": "Speed Freak",
+      "event": "Speed Freak A Tournament",
+      "group": 3,
+      "index": 0,
+      "levels": [
+        "Cassandra_Normal",
+        "ZephyrRidge_Reverse",
+        "Harpstone_Normal",
+        "Luna_Reverse"
+      ],
+      "speed": "Spectre",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591045,
+      "key": "bng05:21591045",
+      "campaign": "Speed Freak",
+      "event": "Speed Freak B Tournament",
+      "group": 3,
+      "index": 1,
+      "levels": [
+        "Nova Split",
+        "Aciknovae_Normal",
+        "Luna_Normal",
+        "UtahProject_Normal"
+      ],
+      "speed": "Spectre",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591046,
+      "key": "bng05:21591046",
+      "campaign": "Zen Zeus",
+      "event": "Nova Split Afterburner Challenge",
+      "group": 0,
+      "index": 1,
+      "levels": [
+        "Nova Split"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591047,
+      "key": "bng05:21591047",
+      "campaign": "Zen Zeus",
+      "event": "Cassandra Afterburner Challenge",
+      "group": 1,
+      "index": 1,
+      "levels": [
+        "Cassandra_Normal"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591048,
+      "key": "bng05:21591048",
+      "campaign": "Zen Zeus",
+      "event": "Utah Project Endurance Race",
+      "group": 2,
+      "index": 0,
+      "levels": [
+        "UtahProject_Normal"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591049,
+      "key": "bng05:21591049",
+      "campaign": "Zen Zeus",
+      "event": "Ishtar Citadel Double Damage Race",
+      "group": 2,
+      "index": 1,
+      "levels": [
+        "Ishtar_Normal"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591050,
+      "key": "bng05:21591050",
+      "campaign": "Zen Zeus",
+      "event": "AGL 2159 Finale A",
+      "group": 3,
+      "index": 0,
+      "levels": [
+        "Cassandra_Normal",
+        "ZephyrRidge_Normal",
+        "Harpstone_Normal",
+        "Aciknovae_Normal"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591051,
+      "key": "bng05:21591051",
+      "campaign": "Zen Zeus",
+      "event": "AGL 2159 Finale B",
+      "group": 3,
+      "index": 1,
+      "levels": [
+        "Luna_Normal",
+        "Kbay_Normal",
+        "Ishtar_Normal",
+        "Omega_Normal"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591052,
+      "key": "bng05:21591052",
+      "campaign": "Zen Zeus",
+      "event": "AGL 2159 Finale C",
+      "group": 3,
+      "index": 2,
+      "levels": [
+        "Nova Split",
+        "Arrivon XI",
+        "MarinaRush_Normal"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Race"
+    },
+    {
+      "id": 21591053,
+      "key": "bng06:21591053",
+      "campaign": "Breeze",
+      "event": "G-Teks Cassandra Trial",
+      "group": 1,
+      "index": 0,
+      "levels": [
+        "Cassandra_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Time Trial"
+    },
+    {
+      "id": 21591054,
+      "key": "bng06:21591054",
+      "campaign": "Breeze",
+      "event": "Scorpios Zephyr Ridge Trial",
+      "group": 2,
+      "index": 1,
+      "levels": [
+        "ZephyrRidge_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Time Trial"
+    },
+    {
+      "id": 21591055,
+      "key": "bng06:21591055",
+      "campaign": "Breeze",
+      "event": "Hyperions Harpstone Trial",
+      "group": 3,
+      "index": 1,
+      "levels": [
+        "Harpstone_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Time Trial"
+    },
+    {
+      "id": 21591056,
+      "key": "bng06:21591056",
+      "campaign": "Techno",
+      "event": "Omnicoms Luna Trial",
+      "group": 1,
+      "index": 1,
+      "levels": [
+        "Luna_Normal"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Time Trial"
+    },
+    {
+      "id": 21591057,
+      "key": "bng06:21591057",
+      "campaign": "Techno",
+      "event": "Diavolts Aciknovae Trial",
+      "group": 2,
+      "index": 0,
+      "levels": [
+        "Aciknovae_Normal"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Time Trial"
+    },
+    {
+      "id": 21591058,
+      "key": "bng06:21591058",
+      "campaign": "Techno",
+      "event": "Wyverns Dover Trial",
+      "group": 3,
+      "index": 1,
+      "levels": [
+        "Kbay_Normal"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Time Trial"
+    },
+    {
+      "id": 21591059,
+      "key": "bng06:21591059",
+      "campaign": "Urban",
+      "event": "Nexus Omega Trial",
+      "group": 1,
+      "index": 1,
+      "levels": [
+        "Omega_Normal"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Time Trial"
+    },
+    {
+      "id": 21591060,
+      "key": "bng06:21591060",
+      "campaign": "Urban",
+      "event": "Tenrais Ishtar Trial",
+      "group": 2,
+      "index": 0,
+      "levels": [
+        "Ishtar_Normal"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Time Trial"
+    },
+    {
+      "id": 21591061,
+      "key": "bng06:21591061",
+      "campaign": "Urban",
+      "event": "G-Teks Utah Trial",
+      "group": 3,
+      "index": 1,
+      "levels": [
+        "UtahProject_Normal"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Time Trial"
+    },
+    {
+      "id": 21591062,
+      "key": "bng06:21591062",
+      "campaign": "Reflex",
+      "event": "Hyperions Arrivon XI Trial",
+      "group": 1,
+      "index": 1,
+      "levels": [
+        "Arrivon XI"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Time Trial"
+    },
+    {
+      "id": 21591063,
+      "key": "bng06:21591063",
+      "campaign": "Reflex",
+      "event": "Omnicoms Nova Split Trial",
+      "group": 2,
+      "index": 1,
+      "levels": [
+        "Nova Split"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Time Trial"
+    },
+    {
+      "id": 21591064,
+      "key": "bng07:21591064",
+      "campaign": "Breeze",
+      "event": "Zephyr Ridge Knockout",
+      "group": 1,
+      "index": 1,
+      "levels": [
+        "ZephyrRidge_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Knockout"
+    },
+    {
+      "id": 21591065,
+      "key": "bng07:21591065",
+      "campaign": "Breeze",
+      "event": "Harpstone Knockout",
+      "group": 2,
+      "index": 2,
+      "levels": [
+        "Harpstone_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Knockout"
+    },
+    {
+      "id": 21591066,
+      "key": "bng07:21591066",
+      "campaign": "Techno",
+      "event": "Luna Knockout",
+      "group": 3,
+      "index": 0,
+      "levels": [
+        "Luna_Normal"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Knockout"
+    },
+    {
+      "id": 21591067,
+      "key": "bng07:21591067",
+      "campaign": "Urban",
+      "event": "Utah Project Knockout",
+      "group": 1,
+      "index": 2,
+      "levels": [
+        "UtahProject_Normal"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Knockout"
+    },
+    {
+      "id": 21591068,
+      "key": "bng07:21591068",
+      "campaign": "Reflex",
+      "event": "Marina Rush Knockout",
+      "group": 1,
+      "index": 2,
+      "levels": [
+        "MarinaRush_Normal"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Knockout"
+    },
+    {
+      "id": 21591069,
+      "key": "bng07:21591069",
+      "campaign": "Descension",
+      "event": "Arrivon XI Reverse Knockout",
+      "group": 3,
+      "index": 0,
+      "levels": [
+        "Arrivon XI Reverse"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Knockout"
+    },
+    {
+      "id": 21591070,
+      "key": "bng07:21591070",
+      "campaign": "Speed Freak",
+      "event": "Nova Split Pure Knockout",
+      "group": 0,
+      "index": 2,
+      "levels": [
+        "Nova Split"
+      ],
+      "speed": "Spectre",
+      "modern": false,
+      "mode": "Knockout"
+    },
+    {
+      "id": 21591071,
+      "key": "bng08:21591071",
+      "campaign": "Breeze",
+      "event": "Cassandra Survival",
+      "group": 2,
+      "index": 0,
+      "levels": [
+        "Cassandra_Normal"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Survival"
+    },
+    {
+      "id": 21591072,
+      "key": "bng08:21591072",
+      "campaign": "Breeze",
+      "event": "Zephyr Ridge Survival",
+      "group": 3,
+      "index": 0,
+      "levels": [
+        "ZephyrRidge_Normal"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Survival"
+    },
+    {
+      "id": 21591073,
+      "key": "bng08:21591073",
+      "campaign": "Techno",
+      "event": "Aciknovae Survival",
+      "group": 1,
+      "index": 0,
+      "levels": [
+        "Aciknovae_Normal"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Survival"
+    },
+    {
+      "id": 21591074,
+      "key": "bng08:21591074",
+      "campaign": "Techno",
+      "event": "Dover Survival",
+      "group": 2,
+      "index": 2,
+      "levels": [
+        "Kbay_Normal"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Survival"
+    },
+    {
+      "id": 21591075,
+      "key": "bng08:21591075",
+      "campaign": "Urban",
+      "event": "Ishtar Citadel Survival",
+      "group": 1,
+      "index": 0,
+      "levels": [
+        "Ishtar_Normal"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Survival"
+    },
+    {
+      "id": 21591076,
+      "key": "bng08:21591076",
+      "campaign": "Urban",
+      "event": "Omega Harbour Survival",
+      "group": 2,
+      "index": 1,
+      "levels": [
+        "Omega_Normal"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Survival"
+    },
+    {
+      "id": 21591077,
+      "key": "bng08:21591077",
+      "campaign": "Reflex",
+      "event": "Nova Split Survival",
+      "group": 1,
+      "index": 0,
+      "levels": [
+        "Nova Split"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Survival"
+    },
+    {
+      "id": 21591078,
+      "key": "bng08:21591078",
+      "campaign": "Reflex",
+      "event": "Arrivon XI Survival",
+      "group": 2,
+      "index": 0,
+      "levels": [
+        "Arrivon XI"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Survival"
+    },
+    {
+      "id": 21591079,
+      "key": "bng08:21591079",
+      "campaign": "Reflex",
+      "event": "Marina Rush Survival",
+      "group": 3,
+      "index": 1,
+      "levels": [
+        "MarinaRush_Normal"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Survival"
+    },
+    {
+      "id": 21591080,
+      "key": "bng08:21591080",
+      "campaign": "Speed Freak",
+      "event": "Harpstone Survival",
+      "group": 0,
+      "index": 1,
+      "levels": [
+        "Harpstone_Normal"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Survival"
+    },
+    {
+      "id": 21591081,
+      "key": "bng08:21591081",
+      "campaign": "Speed Freak",
+      "event": "Luna Survival",
+      "group": 2,
+      "index": 2,
+      "levels": [
+        "Luna_Normal"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Survival"
+    },
+    {
+      "id": 21591082,
+      "key": "bng08:21591082",
+      "campaign": "Zen Zeus",
+      "event": "Utah Project Survival",
+      "group": 1,
+      "index": 2,
+      "levels": [
+        "UtahProject_Normal"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Survival"
+    },
+    {
+      "id": 21591083,
+      "key": "bng09:21591083",
+      "campaign": "Techno",
+      "event": "Dover Rush Hour",
+      "group": 1,
+      "index": 2,
+      "levels": [
+        "Kbay_Normal"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Rush Hour"
+    },
+    {
+      "id": 21591084,
+      "key": "bng09:21591084",
+      "campaign": "Ascension",
+      "event": "Cassandra Reverse Rush Hour",
+      "group": 4,
+      "index": 0,
+      "levels": [
+        "Cassandra_Reverse"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Rush Hour"
+    },
+    {
+      "id": 21591085,
+      "key": "bng09:21591085",
+      "campaign": "Descension",
+      "event": "Zephyr Ridge Reverse Rush Hour",
+      "group": 3,
+      "index": 1,
+      "levels": [
+        "ZephyrRidge_Reverse"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Rush Hour"
+    },
+    {
+      "id": 21591086,
+      "key": "bng09:21591086",
+      "campaign": "Zen Zeus",
+      "event": "Marina Rush Hour",
+      "group": 0,
+      "index": 2,
+      "levels": [
+        "MarinaRush_Normal"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Rush Hour"
+    },
+    {
+      "id": 21591087,
+      "key": "bng10:21591087",
+      "campaign": "Ascension",
+      "event": "Cassandra Reverse Eliminator",
+      "group": 1,
+      "index": 0,
+      "levels": [
+        "Cassandra_Reverse"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Eliminator"
+    },
+    {
+      "id": 21591088,
+      "key": "bng10:21591088",
+      "campaign": "Ascension",
+      "event": "Ishtar Citadel Reverse Eliminator",
+      "group": 3,
+      "index": 2,
+      "levels": [
+        "Ishtar_Reverse"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Eliminator"
+    },
+    {
+      "id": 21591089,
+      "key": "bng10:21591089",
+      "campaign": "Descension",
+      "event": "Aciknovae Reverse Eliminator",
+      "group": 1,
+      "index": 1,
+      "levels": [
+        "Aciknovae_Reverse"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Eliminator"
+    },
+    {
+      "id": 21591090,
+      "key": "bng10:21591090",
+      "campaign": "Speed Freak",
+      "event": "Utah Project Eliminator",
+      "group": 1,
+      "index": 2,
+      "levels": [
+        "UtahProject_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Eliminator"
+    },
+    {
+      "id": 21591091,
+      "key": "bng10:21591091",
+      "campaign": "Zen Zeus",
+      "event": "Dover Eliminator",
+      "group": 0,
+      "index": 0,
+      "levels": [
+        "Kbay_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Eliminator"
+    },
+    {
+      "id": 21591092,
+      "key": "bng11:21591092",
+      "campaign": "Urban",
+      "event": "Ishtar Citadel Upsurge",
+      "group": 3,
+      "index": 0,
+      "levels": [
+        "Ishtar_Normal"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Upsurge"
+    },
+    {
+      "id": 21591093,
+      "key": "bng11:21591093",
+      "campaign": "Reflex",
+      "event": "Marina Rush Team Race",
+      "group": 2,
+      "index": 2,
+      "levels": [
+        "MarinaRush_Normal"
+      ],
+      "speed": "Toxic",
+      "modern": false,
+      "mode": "Team Race"
+    },
+    {
+      "id": 21591094,
+      "key": "bng11:21591094",
+      "campaign": "Ascension",
+      "event": "Luna Reverse Team Race",
+      "group": 1,
+      "index": 2,
+      "levels": [
+        "Luna_Reverse"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Team Race"
+    },
+    {
+      "id": 21591095,
+      "key": "bng11:21591095",
+      "campaign": "Ascension",
+      "event": "Dover Reverse Upsurge",
+      "group": 3,
+      "index": 0,
+      "levels": [
+        "Kbay_Reverse"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Upsurge"
+    },
+    {
+      "id": 21591096,
+      "key": "bng11:21591096",
+      "campaign": "Descension",
+      "event": "Nova Split Reverse Team Race",
+      "group": 1,
+      "index": 0,
+      "levels": [
+        "Nova Split Reverse"
+      ],
+      "speed": "Halberd",
+      "modern": false,
+      "mode": "Team Race"
+    },
+    {
+      "id": 21591097,
+      "key": "bng11:21591097",
+      "campaign": "Descension",
+      "event": "Marina Rush Reverse Upsurge",
+      "group": 3,
+      "index": 2,
+      "levels": [
+        "MarinaRush_Reverse"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Upsurge"
+    },
+    {
+      "id": 21591098,
+      "key": "bng11:21591098",
+      "campaign": "Speed Freak",
+      "event": "Zephyr Ridge Reverse Team Race",
+      "group": 1,
+      "index": 1,
+      "levels": [
+        "ZephyrRidge_Reverse"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Team Race"
+    },
+    {
+      "id": 21591099,
+      "key": "bng11:21591099",
+      "campaign": "Zen Zeus",
+      "event": "Omega Harbour Team Race",
+      "group": 1,
+      "index": 0,
+      "levels": [
+        "Omega_Normal"
+      ],
+      "speed": "Apex",
+      "modern": false,
+      "mode": "Team Race"
+    },
+    {
+      "id": 21591100,
+      "key": "bng11:21591100",
+      "campaign": "Zen Zeus",
+      "event": "Nova Split Upsurge",
+      "group": 2,
+      "index": 2,
+      "levels": [
+        "Nova Split"
+      ],
+      "speed": "Zen",
+      "modern": false,
+      "mode": "Upsurge"
+    }
+  ],
+  "goal_keys": [
+    "bng05:21591050",
+    "bng05:21591051",
+    "bng05:21591052"
+  ],
+  "finale_requirements": {
+    "bng05:21591050": "Finale A",
+    "bng05:21591051": "Finale B",
+    "bng05:21591052": "Finale C"
+  },
+  "starting_ship": null,
+  "ship_names": {
+    "Gtek": "G-Tek Ship",
+    "Wyvern": "Wyvern Ship",
+    "Hyperion": "Hyperion Ship",
+    "Scorpio": "Scorpio Ship",
+    "Omnicom": "Omnicom Ship",
+    "Diavolt": "Diavolt Ship",
+    "Nexus": "Nexus Ship",
+    "Tenrai": "Tenrai Ship",
+    "Caliburn": "Caliburn Ship",
+    "BarracudaPrototype": "Barracuda Model 0 Ship",
+    "Orbitronix": "Orbitronix Ship",
+    "Mako": "Mako Ship",
+    "Protonic": "Protonic AG4 Ship",
+    "Mtechp1": "MTech P1 Ship",
+    "Nx2000": "NX2000 Ship",
+    "Tempest": "C.Y.G.O.N Ship",
+    "Zoneship": "Barracuda S Ship"
+  },
+  "ship_items": {
+    "Wyvern": {
+      "name": "Wyvern Ship",
+      "id": 21593000
+    },
+    "Hyperion": {
+      "name": "Hyperion Ship",
+      "id": 21593001
+    },
+    "Scorpio": {
+      "name": "Scorpio Ship",
+      "id": 21593002
+    },
+    "Omnicom": {
+      "name": "Omnicom Ship",
+      "id": 21593003
+    },
+    "Diavolt": {
+      "name": "Diavolt Ship",
+      "id": 21593004
+    },
+    "Nexus": {
+      "name": "Nexus Ship",
+      "id": 21593005
+    },
+    "Tenrai": {
+      "name": "Tenrai Ship",
+      "id": 21593006
+    },
+    "Caliburn": {
+      "name": "Caliburn Ship",
+      "id": 21593007
+    },
+    "BarracudaPrototype": {
+      "name": "Barracuda Model 0 Ship",
+      "id": 21593008
+    },
+    "Orbitronix": {
+      "name": "Orbitronix Ship",
+      "id": 21593009
+    },
+    "Mako": {
+      "name": "Mako Ship",
+      "id": 21593010
+    },
+    "Protonic": {
+      "name": "Protonic AG4 Ship",
+      "id": 21593011
+    },
+    "Mtechp1": {
+      "name": "MTech P1 Ship",
+      "id": 21593012
+    },
+    "Nx2000": {
+      "name": "NX2000 Ship",
+      "id": 21593013
+    },
+    "Tempest": {
+      "name": "C.Y.G.O.N Ship",
+      "id": 21593014
+    },
+    "Zoneship": {
+      "name": "Barracuda S Ship",
+      "id": 21593015
+    },
+    "Gtek": {
+      "name": "G-Tek Ship",
+      "id": 21593016
+    }
+  },
+  "required_ships": {
+    "bng06:21591053": "Gtek",
+    "bng06:21591054": "Scorpio",
+    "bng06:21591055": "Hyperion",
+    "bng06:21591056": "Omnicom",
+    "bng06:21591057": "Diavolt",
+    "bng06:21591058": "Wyvern",
+    "bng06:21591059": "Nexus",
+    "bng06:21591060": "Tenrai",
+    "bng06:21591061": "Gtek",
+    "bng06:21591062": "Hyperion",
+    "bng06:21591063": "Omnicom",
+    "bng08:21591071": "Zoneship",
+    "bng08:21591072": "Zoneship",
+    "bng08:21591073": "Zoneship",
+    "bng08:21591074": "Zoneship",
+    "bng08:21591075": "Zoneship",
+    "bng08:21591076": "Zoneship",
+    "bng08:21591077": "Zoneship",
+    "bng08:21591078": "Zoneship",
+    "bng08:21591079": "Zoneship",
+    "bng08:21591080": "Zoneship",
+    "bng08:21591081": "Zoneship",
+    "bng08:21591082": "Zoneship"
+  },
+  "ship_variants": {
+    "Gtek": [
+      0,
+      1
+    ],
+    "Wyvern": [
+      0,
+      1
+    ],
+    "Hyperion": [
+      0,
+      1
+    ],
+    "Scorpio": [
+      0,
+      1
+    ],
+    "Omnicom": [
+      0,
+      1
+    ],
+    "Diavolt": [
+      0,
+      1
+    ],
+    "Nexus": [
+      0,
+      1
+    ],
+    "Tenrai": [
+      0,
+      1
+    ],
+    "Caliburn": [
+      0,
+      1
+    ],
+    "BarracudaPrototype": [
+      0,
+      1
+    ],
+    "Orbitronix": [
+      0,
+      1
+    ],
+    "Mako": [
+      0,
+      1
+    ],
+    "Protonic": [
+      0,
+      1
+    ],
+    "Mtechp1": [
+      0,
+      1
+    ],
+    "Nx2000": [
+      0,
+      1
+    ],
+    "Tempest": [
+      0
+    ],
+    "Zoneship": [
+      0,
+      1
+    ]
+  },
+  "starting_track": "Harpstone Track Permit",
+  "starting_speed": "Toxic",
+  "track_scenes": {
+    "Cassandra_Normal": "Cassandra",
+    "Cassandra_Reverse": "Cassandra",
+    "ZephyrRidge_Normal": "Zephyr Ridge",
+    "ZephyrRidge_Reverse": "Zephyr Ridge",
+    "Harpstone_Normal": "Harpstone",
+    "Harpstone_Reverse": "Harpstone",
+    "Aciknovae_Normal": "Aciknovae",
+    "Aciknovae_Reverse": "Aciknovae",
+    "Luna_Normal": "Luna",
+    "Luna_Reverse": "Luna",
+    "Kbay_Normal": "Dover",
+    "Kbay_Reverse": "Dover",
+    "Omega_Normal": "Omega",
+    "Omega_Reverse": "Omega",
+    "Ishtar_Normal": "Ishtar",
+    "Ishtar_Reverse": "Ishtar",
+    "UtahProject_Normal": "Utah Project",
+    "UtahProject_Reverse": "Utah Project",
+    "Arrivon XI": "Arrivon XI",
+    "Arrivon XI Reverse": "Arrivon XI",
+    "Nova Split": "Nova Split",
+    "Nova Split Reverse": "Nova Split",
+    "MarinaRush_Normal": "Marina Rush",
+    "MarinaRush_Reverse": "Marina Rush"
+  },
+  "track_items": {
+    "Zephyr Ridge": {
+      "name": "Zephyr Ridge Track Permit",
+      "id": 21594000,
+      "gate": "Zephyr Ridge Track Access"
+    },
+    "Harpstone": {
+      "name": "Harpstone Track Permit",
+      "id": 21594001,
+      "gate": "Harpstone Track Access"
+    },
+    "Aciknovae": {
+      "name": "Aciknovae Track Permit",
+      "id": 21594002,
+      "gate": "Aciknovae Track Access"
+    },
+    "Luna": {
+      "name": "Luna Track Permit",
+      "id": 21594003,
+      "gate": "Luna Track Access"
+    },
+    "Dover": {
+      "name": "Dover Track Permit",
+      "id": 21594004,
+      "gate": "Dover Track Access"
+    },
+    "Omega": {
+      "name": "Omega Track Permit",
+      "id": 21594005,
+      "gate": "Omega Track Access"
+    },
+    "Ishtar": {
+      "name": "Ishtar Track Permit",
+      "id": 21594006,
+      "gate": "Ishtar Track Access"
+    },
+    "Utah Project": {
+      "name": "Utah Project Track Permit",
+      "id": 21594007,
+      "gate": "Utah Project Track Access"
+    },
+    "Arrivon XI": {
+      "name": "Arrivon XI Track Permit",
+      "id": 21594008,
+      "gate": "Arrivon XI Track Access"
+    },
+    "Nova Split": {
+      "name": "Nova Split Track Permit",
+      "id": 21594009,
+      "gate": "Nova Split Track Access"
+    },
+    "Marina Rush": {
+      "name": "Marina Rush Track Permit",
+      "id": 21594010,
+      "gate": "Marina Rush Track Access"
+    }
+  },
+  "speed_items": {
+    "Apex": {
+      "name": "Apex Speed License",
+      "id": 21595000,
+      "gate": "Apex Speed Access"
+    },
+    "Halberd": {
+      "name": "Halberd Speed License",
+      "id": 21595001,
+      "gate": "Halberd Speed Access"
+    },
+    "Spectre": {
+      "name": "Spectre Speed License",
+      "id": 21595002,
+      "gate": "Spectre Speed Access"
+    },
+    "Zen": {
+      "name": "Zen Speed License",
+      "id": 21595003,
+      "gate": "Zen Speed Access"
+    }
+  },
+  "event_requirements": {
+    "bng05:21591000": [],
+    "bng05:21591001": [
+      "Zephyr Ridge Track Access"
+    ],
+    "bng05:21591002": [
+      "Harpstone Track Access"
+    ],
+    "bng05:21591003": [
+      "Harpstone Track Access"
+    ],
+    "bng05:21591004": [
+      "Zephyr Ridge Track Access",
+      "Harpstone Track Access",
+      "Apex Speed Access"
+    ],
+    "bng05:21591005": [
+      "Aciknovae Track Access"
+    ],
+    "bng05:21591006": [
+      "Luna Track Access"
+    ],
+    "bng05:21591007": [
+      "Dover Track Access"
+    ],
+    "bng05:21591008": [
+      "Luna Track Access",
+      "Apex Speed Access"
+    ],
+    "bng05:21591009": [
+      "Aciknovae Track Access",
+      "Luna Track Access",
+      "Dover Track Access",
+      "Apex Speed Access"
+    ],
+    "bng05:21591010": [
+      "Ishtar Track Access"
+    ],
+    "bng05:21591011": [
+      "Omega Track Access"
+    ],
+    "bng05:21591012": [
+      "Utah Project Track Access"
+    ],
+    "bng05:21591013": [
+      "Utah Project Track Access",
+      "Apex Speed Access"
+    ],
+    "bng05:21591014": [
+      "Ishtar Track Access",
+      "Omega Track Access",
+      "Utah Project Track Access",
+      "Halberd Speed Access"
+    ],
+    "bng05:21591015": [
+      "Nova Split Track Access"
+    ],
+    "bng05:21591016": [
+      "Arrivon XI Track Access"
+    ],
+    "bng05:21591017": [
+      "Marina Rush Track Access"
+    ],
+    "bng05:21591018": [
+      "Arrivon XI Track Access",
+      "Halberd Speed Access"
+    ],
+    "bng05:21591019": [
+      "Nova Split Track Access",
+      "Arrivon XI Track Access",
+      "Marina Rush Track Access",
+      "Halberd Speed Access"
+    ],
+    "bng05:21591020": [
+      "Apex Speed Access"
+    ],
+    "bng05:21591021": [
+      "Harpstone Track Access",
+      "Apex Speed Access"
+    ],
+    "bng05:21591022": [
+      "Luna Track Access",
+      "Apex Speed Access"
+    ],
+    "bng05:21591023": [
+      "Harpstone Track Access",
+      "Halberd Speed Access"
+    ],
+    "bng05:21591024": [
+      "Dover Track Access",
+      "Apex Speed Access"
+    ],
+    "bng05:21591025": [
+      "Utah Project Track Access",
+      "Apex Speed Access"
+    ],
+    "bng05:21591026": [
+      "Ishtar Track Access",
+      "Apex Speed Access"
+    ],
+    "bng05:21591027": [
+      "Utah Project Track Access",
+      "Halberd Speed Access"
+    ],
+    "bng05:21591028": [
+      "Harpstone Track Access",
+      "Luna Track Access",
+      "Halberd Speed Access"
+    ],
+    "bng05:21591029": [
+      "Dover Track Access",
+      "Utah Project Track Access",
+      "Ishtar Track Access",
+      "Halberd Speed Access"
+    ],
+    "bng05:21591030": [
+      "Nova Split Track Access",
+      "Apex Speed Access"
+    ],
+    "bng05:21591031": [
+      "Aciknovae Track Access",
+      "Apex Speed Access"
+    ],
+    "bng05:21591032": [
+      "Omega Track Access",
+      "Apex Speed Access"
+    ],
+    "bng05:21591033": [
+      "Omega Track Access",
+      "Halberd Speed Access"
+    ],
+    "bng05:21591034": [
+      "Arrivon XI Track Access",
+      "Apex Speed Access"
+    ],
+    "bng05:21591035": [
+      "Zephyr Ridge Track Access",
+      "Apex Speed Access"
+    ],
+    "bng05:21591036": [
+      "Marina Rush Track Access",
+      "Apex Speed Access"
+    ],
+    "bng05:21591037": [
+      "Zephyr Ridge Track Access",
+      "Halberd Speed Access"
+    ],
+    "bng05:21591038": [
+      "Nova Split Track Access",
+      "Aciknovae Track Access",
+      "Omega Track Access",
+      "Spectre Speed Access"
+    ],
+    "bng05:21591039": [
+      "Arrivon XI Track Access",
+      "Zephyr Ridge Track Access",
+      "Marina Rush Track Access",
+      "Spectre Speed Access"
+    ],
+    "bng05:21591040": [
+      "Spectre Speed Access"
+    ],
+    "bng05:21591041": [
+      "Spectre Speed Access"
+    ],
+    "bng05:21591042": [
+      "Aciknovae Track Access",
+      "Spectre Speed Access"
+    ],
+    "bng05:21591043": [
+      "Luna Track Access",
+      "Spectre Speed Access"
+    ],
+    "bng05:21591044": [
+      "Zephyr Ridge Track Access",
+      "Harpstone Track Access",
+      "Luna Track Access",
+      "Spectre Speed Access"
+    ],
+    "bng05:21591045": [
+      "Nova Split Track Access",
+      "Aciknovae Track Access",
+      "Luna Track Access",
+      "Utah Project Track Access",
+      "Spectre Speed Access"
+    ],
+    "bng05:21591046": [
+      "Nova Split Track Access",
+      "Zen Speed Access"
+    ],
+    "bng05:21591047": [
+      "Zen Speed Access"
+    ],
+    "bng05:21591048": [
+      "Utah Project Track Access",
+      "Zen Speed Access"
+    ],
+    "bng05:21591049": [
+      "Ishtar Track Access",
+      "Zen Speed Access"
+    ],
+    "bng05:21591050": [
+      "Zephyr Ridge Track Access",
+      "Harpstone Track Access",
+      "Aciknovae Track Access",
+      "Zen Speed Access"
+    ],
+    "bng05:21591051": [
+      "Luna Track Access",
+      "Dover Track Access",
+      "Ishtar Track Access",
+      "Omega Track Access",
+      "Zen Speed Access"
+    ],
+    "bng05:21591052": [
+      "Nova Split Track Access",
+      "Arrivon XI Track Access",
+      "Marina Rush Track Access",
+      "Zen Speed Access"
+    ],
+    "bng06:21591053": [],
+    "bng06:21591054": [
+      "Zephyr Ridge Track Access"
+    ],
+    "bng06:21591055": [
+      "Harpstone Track Access"
+    ],
+    "bng06:21591056": [
+      "Luna Track Access",
+      "Apex Speed Access"
+    ],
+    "bng06:21591057": [
+      "Aciknovae Track Access",
+      "Apex Speed Access"
+    ],
+    "bng06:21591058": [
+      "Dover Track Access",
+      "Apex Speed Access"
+    ],
+    "bng06:21591059": [
+      "Omega Track Access",
+      "Halberd Speed Access"
+    ],
+    "bng06:21591060": [
+      "Ishtar Track Access",
+      "Halberd Speed Access"
+    ],
+    "bng06:21591061": [
+      "Utah Project Track Access",
+      "Halberd Speed Access"
+    ],
+    "bng06:21591062": [
+      "Arrivon XI Track Access",
+      "Halberd Speed Access"
+    ],
+    "bng06:21591063": [
+      "Nova Split Track Access",
+      "Halberd Speed Access"
+    ],
+    "bng07:21591064": [
+      "Zephyr Ridge Track Access"
+    ],
+    "bng07:21591065": [
+      "Harpstone Track Access"
+    ],
+    "bng07:21591066": [
+      "Luna Track Access",
+      "Apex Speed Access"
+    ],
+    "bng07:21591067": [
+      "Utah Project Track Access",
+      "Apex Speed Access"
+    ],
+    "bng07:21591068": [
+      "Marina Rush Track Access",
+      "Halberd Speed Access"
+    ],
+    "bng07:21591069": [
+      "Arrivon XI Track Access",
+      "Halberd Speed Access"
+    ],
+    "bng07:21591070": [
+      "Nova Split Track Access",
+      "Spectre Speed Access"
+    ],
+    "bng08:21591071": [
+      "Zen Speed Access"
+    ],
+    "bng08:21591072": [
+      "Zephyr Ridge Track Access",
+      "Zen Speed Access"
+    ],
+    "bng08:21591073": [
+      "Aciknovae Track Access",
+      "Zen Speed Access"
+    ],
+    "bng08:21591074": [
+      "Dover Track Access",
+      "Zen Speed Access"
+    ],
+    "bng08:21591075": [
+      "Ishtar Track Access",
+      "Zen Speed Access"
+    ],
+    "bng08:21591076": [
+      "Omega Track Access",
+      "Zen Speed Access"
+    ],
+    "bng08:21591077": [
+      "Nova Split Track Access",
+      "Zen Speed Access"
+    ],
+    "bng08:21591078": [
+      "Arrivon XI Track Access",
+      "Zen Speed Access"
+    ],
+    "bng08:21591079": [
+      "Marina Rush Track Access",
+      "Zen Speed Access"
+    ],
+    "bng08:21591080": [
+      "Harpstone Track Access",
+      "Zen Speed Access"
+    ],
+    "bng08:21591081": [
+      "Luna Track Access",
+      "Zen Speed Access"
+    ],
+    "bng08:21591082": [
+      "Utah Project Track Access",
+      "Zen Speed Access"
+    ],
+    "bng09:21591083": [
+      "Dover Track Access",
+      "Apex Speed Access"
+    ],
+    "bng09:21591084": [
+      "Halberd Speed Access"
+    ],
+    "bng09:21591085": [
+      "Zephyr Ridge Track Access",
+      "Halberd Speed Access"
+    ],
+    "bng09:21591086": [
+      "Marina Rush Track Access",
+      "Zen Speed Access"
+    ],
+    "bng10:21591087": [],
+    "bng10:21591088": [
+      "Ishtar Track Access"
+    ],
+    "bng10:21591089": [
+      "Aciknovae Track Access"
+    ],
+    "bng10:21591090": [
+      "Utah Project Track Access"
+    ],
+    "bng10:21591091": [
+      "Dover Track Access"
+    ],
+    "bng11:21591092": [
+      "Ishtar Track Access",
+      "Zen Speed Access"
+    ],
+    "bng11:21591093": [
+      "Marina Rush Track Access"
+    ],
+    "bng11:21591094": [
+      "Luna Track Access",
+      "Apex Speed Access"
+    ],
+    "bng11:21591095": [
+      "Dover Track Access",
+      "Zen Speed Access"
+    ],
+    "bng11:21591096": [
+      "Nova Split Track Access",
+      "Halberd Speed Access"
+    ],
+    "bng11:21591097": [
+      "Marina Rush Track Access",
+      "Zen Speed Access"
+    ],
+    "bng11:21591098": [
+      "Zephyr Ridge Track Access",
+      "Apex Speed Access"
+    ],
+    "bng11:21591099": [
+      "Omega Track Access",
+      "Apex Speed Access"
+    ],
+    "bng11:21591100": [
+      "Nova Split Track Access",
+      "Zen Speed Access"
+    ]
+  },
+  "survival_milestones": {
+    "bng08:21591071": {
+      "Bronze": {
+        "id": 21596000,
+        "key": "bng08:21591071:bronze"
+      },
+      "Silver": {
+        "id": 21596001,
+        "key": "bng08:21591071:silver"
+      },
+      "Gold": {
+        "id": 21596002,
+        "key": "bng08:21591071:gold"
+      }
+    },
+    "bng08:21591072": {
+      "Bronze": {
+        "id": 21596003,
+        "key": "bng08:21591072:bronze"
+      },
+      "Silver": {
+        "id": 21596004,
+        "key": "bng08:21591072:silver"
+      },
+      "Gold": {
+        "id": 21596005,
+        "key": "bng08:21591072:gold"
+      }
+    },
+    "bng08:21591073": {
+      "Bronze": {
+        "id": 21596006,
+        "key": "bng08:21591073:bronze"
+      },
+      "Silver": {
+        "id": 21596007,
+        "key": "bng08:21591073:silver"
+      },
+      "Gold": {
+        "id": 21596008,
+        "key": "bng08:21591073:gold"
+      }
+    },
+    "bng08:21591074": {
+      "Bronze": {
+        "id": 21596009,
+        "key": "bng08:21591074:bronze"
+      },
+      "Silver": {
+        "id": 21596010,
+        "key": "bng08:21591074:silver"
+      },
+      "Gold": {
+        "id": 21596011,
+        "key": "bng08:21591074:gold"
+      }
+    },
+    "bng08:21591075": {
+      "Bronze": {
+        "id": 21596012,
+        "key": "bng08:21591075:bronze"
+      },
+      "Silver": {
+        "id": 21596013,
+        "key": "bng08:21591075:silver"
+      },
+      "Gold": {
+        "id": 21596014,
+        "key": "bng08:21591075:gold"
+      }
+    },
+    "bng08:21591076": {
+      "Bronze": {
+        "id": 21596015,
+        "key": "bng08:21591076:bronze"
+      },
+      "Silver": {
+        "id": 21596016,
+        "key": "bng08:21591076:silver"
+      },
+      "Gold": {
+        "id": 21596017,
+        "key": "bng08:21591076:gold"
+      }
+    },
+    "bng08:21591077": {
+      "Bronze": {
+        "id": 21596018,
+        "key": "bng08:21591077:bronze"
+      },
+      "Silver": {
+        "id": 21596019,
+        "key": "bng08:21591077:silver"
+      },
+      "Gold": {
+        "id": 21596020,
+        "key": "bng08:21591077:gold"
+      }
+    },
+    "bng08:21591078": {
+      "Bronze": {
+        "id": 21596021,
+        "key": "bng08:21591078:bronze"
+      },
+      "Silver": {
+        "id": 21596022,
+        "key": "bng08:21591078:silver"
+      },
+      "Gold": {
+        "id": 21596023,
+        "key": "bng08:21591078:gold"
+      }
+    },
+    "bng08:21591079": {
+      "Bronze": {
+        "id": 21596024,
+        "key": "bng08:21591079:bronze"
+      },
+      "Silver": {
+        "id": 21596025,
+        "key": "bng08:21591079:silver"
+      },
+      "Gold": {
+        "id": 21596026,
+        "key": "bng08:21591079:gold"
+      }
+    },
+    "bng08:21591080": {
+      "Bronze": {
+        "id": 21596027,
+        "key": "bng08:21591080:bronze"
+      },
+      "Silver": {
+        "id": 21596028,
+        "key": "bng08:21591080:silver"
+      },
+      "Gold": {
+        "id": 21596029,
+        "key": "bng08:21591080:gold"
+      }
+    },
+    "bng08:21591081": {
+      "Bronze": {
+        "id": 21596030,
+        "key": "bng08:21591081:bronze"
+      },
+      "Silver": {
+        "id": 21596031,
+        "key": "bng08:21591081:silver"
+      },
+      "Gold": {
+        "id": 21596032,
+        "key": "bng08:21591081:gold"
+      }
+    },
+    "bng08:21591082": {
+      "Bronze": {
+        "id": 21596033,
+        "key": "bng08:21591082:bronze"
+      },
+      "Silver": {
+        "id": 21596034,
+        "key": "bng08:21591082:silver"
+      },
+      "Gold": {
+        "id": 21596035,
+        "key": "bng08:21591082:gold"
+      }
+    }
+  },
+  "above_target_survival_progression": false,
+  "starting_ship_candidates": [
+    "Gtek",
+    "Wyvern",
+    "Hyperion",
+    "Scorpio",
+    "Omnicom",
+    "Diavolt",
+    "Nexus",
+    "Tenrai",
+    "Caliburn",
+    "Orbitronix",
+    "Mako",
+    "Tempest"
+  ],
+  "cosmetic_items": {
+    "Wyvern:Alt": {
+      "id": 21597000,
+      "name": "Wyvern Alt Livery",
+      "ship": "Wyvern",
+      "livery": "Alt"
+    },
+    "Wyvern:Neon": {
+      "id": 21597001,
+      "name": "Wyvern Neon Livery",
+      "ship": "Wyvern",
+      "livery": "Neon"
+    },
+    "Wyvern:Clean": {
+      "id": 21597002,
+      "name": "Wyvern Clean Livery",
+      "ship": "Wyvern",
+      "livery": "Clean"
+    },
+    "Wyvern:Stealth": {
+      "id": 21597003,
+      "name": "Wyvern Stealth Livery",
+      "ship": "Wyvern",
+      "livery": "Stealth"
+    },
+    "Hyperion:Alt": {
+      "id": 21597004,
+      "name": "Hyperion Alt Livery",
+      "ship": "Hyperion",
+      "livery": "Alt"
+    },
+    "Hyperion:Neon": {
+      "id": 21597005,
+      "name": "Hyperion Neon Livery",
+      "ship": "Hyperion",
+      "livery": "Neon"
+    },
+    "Hyperion:Clean": {
+      "id": 21597006,
+      "name": "Hyperion Clean Livery",
+      "ship": "Hyperion",
+      "livery": "Clean"
+    },
+    "Hyperion:Stealth": {
+      "id": 21597007,
+      "name": "Hyperion Stealth Livery",
+      "ship": "Hyperion",
+      "livery": "Stealth"
+    },
+    "Scorpio:Alt": {
+      "id": 21597008,
+      "name": "Scorpio Alt Livery",
+      "ship": "Scorpio",
+      "livery": "Alt"
+    },
+    "Scorpio:Neon": {
+      "id": 21597009,
+      "name": "Scorpio Neon Livery",
+      "ship": "Scorpio",
+      "livery": "Neon"
+    },
+    "Scorpio:Clean": {
+      "id": 21597010,
+      "name": "Scorpio Clean Livery",
+      "ship": "Scorpio",
+      "livery": "Clean"
+    },
+    "Scorpio:Stealth": {
+      "id": 21597011,
+      "name": "Scorpio Stealth Livery",
+      "ship": "Scorpio",
+      "livery": "Stealth"
+    },
+    "Omnicom:Alt": {
+      "id": 21597012,
+      "name": "Omnicom Alt Livery",
+      "ship": "Omnicom",
+      "livery": "Alt"
+    },
+    "Omnicom:Neon": {
+      "id": 21597013,
+      "name": "Omnicom Neon Livery",
+      "ship": "Omnicom",
+      "livery": "Neon"
+    },
+    "Omnicom:Clean": {
+      "id": 21597014,
+      "name": "Omnicom Clean Livery",
+      "ship": "Omnicom",
+      "livery": "Clean"
+    },
+    "Omnicom:Stealth": {
+      "id": 21597015,
+      "name": "Omnicom Stealth Livery",
+      "ship": "Omnicom",
+      "livery": "Stealth"
+    },
+    "Diavolt:Alt": {
+      "id": 21597016,
+      "name": "Diavolt Alt Livery",
+      "ship": "Diavolt",
+      "livery": "Alt"
+    },
+    "Diavolt:Neon": {
+      "id": 21597017,
+      "name": "Diavolt Neon Livery",
+      "ship": "Diavolt",
+      "livery": "Neon"
+    },
+    "Diavolt:Clean": {
+      "id": 21597018,
+      "name": "Diavolt Clean Livery",
+      "ship": "Diavolt",
+      "livery": "Clean"
+    },
+    "Diavolt:Stealth": {
+      "id": 21597019,
+      "name": "Diavolt Stealth Livery",
+      "ship": "Diavolt",
+      "livery": "Stealth"
+    },
+    "Nexus:Alt": {
+      "id": 21597020,
+      "name": "Nexus Alt Livery",
+      "ship": "Nexus",
+      "livery": "Alt"
+    },
+    "Nexus:Neon": {
+      "id": 21597021,
+      "name": "Nexus Neon Livery",
+      "ship": "Nexus",
+      "livery": "Neon"
+    },
+    "Nexus:Clean": {
+      "id": 21597022,
+      "name": "Nexus Clean Livery",
+      "ship": "Nexus",
+      "livery": "Clean"
+    },
+    "Nexus:Stealth": {
+      "id": 21597023,
+      "name": "Nexus Stealth Livery",
+      "ship": "Nexus",
+      "livery": "Stealth"
+    },
+    "Tenrai:Alt": {
+      "id": 21597024,
+      "name": "Tenrai Alt Livery",
+      "ship": "Tenrai",
+      "livery": "Alt"
+    },
+    "Tenrai:Neon": {
+      "id": 21597025,
+      "name": "Tenrai Neon Livery",
+      "ship": "Tenrai",
+      "livery": "Neon"
+    },
+    "Tenrai:Clean": {
+      "id": 21597026,
+      "name": "Tenrai Clean Livery",
+      "ship": "Tenrai",
+      "livery": "Clean"
+    },
+    "Tenrai:Stealth": {
+      "id": 21597027,
+      "name": "Tenrai Stealth Livery",
+      "ship": "Tenrai",
+      "livery": "Stealth"
+    },
+    "Caliburn:Alt": {
+      "id": 21597028,
+      "name": "Caliburn Alt Livery",
+      "ship": "Caliburn",
+      "livery": "Alt"
+    },
+    "Caliburn:Neon": {
+      "id": 21597029,
+      "name": "Caliburn Neon Livery",
+      "ship": "Caliburn",
+      "livery": "Neon"
+    },
+    "Caliburn:Clean": {
+      "id": 21597030,
+      "name": "Caliburn Clean Livery",
+      "ship": "Caliburn",
+      "livery": "Clean"
+    },
+    "Caliburn:Stealth": {
+      "id": 21597031,
+      "name": "Caliburn Stealth Livery",
+      "ship": "Caliburn",
+      "livery": "Stealth"
+    },
+    "BarracudaPrototype:Alt": {
+      "id": 21597032,
+      "name": "Barracuda Model 0 Alt Livery",
+      "ship": "BarracudaPrototype",
+      "livery": "Alt"
+    },
+    "BarracudaPrototype:Neon": {
+      "id": 21597033,
+      "name": "Barracuda Model 0 Neon Livery",
+      "ship": "BarracudaPrototype",
+      "livery": "Neon"
+    },
+    "BarracudaPrototype:Clean": {
+      "id": 21597034,
+      "name": "Barracuda Model 0 Clean Livery",
+      "ship": "BarracudaPrototype",
+      "livery": "Clean"
+    },
+    "BarracudaPrototype:Stealth": {
+      "id": 21597035,
+      "name": "Barracuda Model 0 Stealth Livery",
+      "ship": "BarracudaPrototype",
+      "livery": "Stealth"
+    },
+    "Orbitronix:Alt": {
+      "id": 21597036,
+      "name": "Orbitronix Alt Livery",
+      "ship": "Orbitronix",
+      "livery": "Alt"
+    },
+    "Orbitronix:Neon": {
+      "id": 21597037,
+      "name": "Orbitronix Neon Livery",
+      "ship": "Orbitronix",
+      "livery": "Neon"
+    },
+    "Orbitronix:Clean": {
+      "id": 21597038,
+      "name": "Orbitronix Clean Livery",
+      "ship": "Orbitronix",
+      "livery": "Clean"
+    },
+    "Orbitronix:Stealth": {
+      "id": 21597039,
+      "name": "Orbitronix Stealth Livery",
+      "ship": "Orbitronix",
+      "livery": "Stealth"
+    },
+    "Mako:Alt": {
+      "id": 21597040,
+      "name": "Mako Alt Livery",
+      "ship": "Mako",
+      "livery": "Alt"
+    },
+    "Mako:Neon": {
+      "id": 21597041,
+      "name": "Mako Neon Livery",
+      "ship": "Mako",
+      "livery": "Neon"
+    },
+    "Mako:Clean": {
+      "id": 21597042,
+      "name": "Mako Clean Livery",
+      "ship": "Mako",
+      "livery": "Clean"
+    },
+    "Mako:Stealth": {
+      "id": 21597043,
+      "name": "Mako Stealth Livery",
+      "ship": "Mako",
+      "livery": "Stealth"
+    },
+    "Protonic:Alt": {
+      "id": 21597044,
+      "name": "Protonic AG4 Alt Livery",
+      "ship": "Protonic",
+      "livery": "Alt"
+    },
+    "Protonic:Neon": {
+      "id": 21597045,
+      "name": "Protonic AG4 Neon Livery",
+      "ship": "Protonic",
+      "livery": "Neon"
+    },
+    "Protonic:Clean": {
+      "id": 21597046,
+      "name": "Protonic AG4 Clean Livery",
+      "ship": "Protonic",
+      "livery": "Clean"
+    },
+    "Protonic:Stealth": {
+      "id": 21597047,
+      "name": "Protonic AG4 Stealth Livery",
+      "ship": "Protonic",
+      "livery": "Stealth"
+    },
+    "Mtechp1:Alt": {
+      "id": 21597048,
+      "name": "MTech P1 Alt Livery",
+      "ship": "Mtechp1",
+      "livery": "Alt"
+    },
+    "Mtechp1:Neon": {
+      "id": 21597049,
+      "name": "MTech P1 Neon Livery",
+      "ship": "Mtechp1",
+      "livery": "Neon"
+    },
+    "Mtechp1:Clean": {
+      "id": 21597050,
+      "name": "MTech P1 Clean Livery",
+      "ship": "Mtechp1",
+      "livery": "Clean"
+    },
+    "Mtechp1:Stealth": {
+      "id": 21597051,
+      "name": "MTech P1 Stealth Livery",
+      "ship": "Mtechp1",
+      "livery": "Stealth"
+    },
+    "Nx2000:Alt": {
+      "id": 21597052,
+      "name": "NX2000 Alt Livery",
+      "ship": "Nx2000",
+      "livery": "Alt"
+    },
+    "Nx2000:Neon": {
+      "id": 21597053,
+      "name": "NX2000 Neon Livery",
+      "ship": "Nx2000",
+      "livery": "Neon"
+    },
+    "Nx2000:Clean": {
+      "id": 21597054,
+      "name": "NX2000 Clean Livery",
+      "ship": "Nx2000",
+      "livery": "Clean"
+    },
+    "Nx2000:Stealth": {
+      "id": 21597055,
+      "name": "NX2000 Stealth Livery",
+      "ship": "Nx2000",
+      "livery": "Stealth"
+    },
+    "Tempest:Alt": {
+      "id": 21597056,
+      "name": "C.Y.G.O.N Alt Livery",
+      "ship": "Tempest",
+      "livery": "Alt"
+    },
+    "Tempest:Neon": {
+      "id": 21597057,
+      "name": "C.Y.G.O.N Neon Livery",
+      "ship": "Tempest",
+      "livery": "Neon"
+    },
+    "Tempest:Clean": {
+      "id": 21597058,
+      "name": "C.Y.G.O.N Clean Livery",
+      "ship": "Tempest",
+      "livery": "Clean"
+    },
+    "Tempest:Stealth": {
+      "id": 21597059,
+      "name": "C.Y.G.O.N Stealth Livery",
+      "ship": "Tempest",
+      "livery": "Stealth"
+    },
+    "Zoneship:Neon": {
+      "id": 21597060,
+      "name": "Barracuda S Neon Livery",
+      "ship": "Zoneship",
+      "livery": "Neon"
+    },
+    "Zoneship:Clean": {
+      "id": 21597061,
+      "name": "Barracuda S Clean Livery",
+      "ship": "Zoneship",
+      "livery": "Clean"
+    },
+    "Zoneship:Stealth": {
+      "id": 21597062,
+      "name": "Barracuda S Stealth Livery",
+      "ship": "Zoneship",
+      "livery": "Stealth"
+    },
+    "Gtek:Alt": {
+      "id": 21597063,
+      "name": "G-Tek Alt Livery",
+      "ship": "Gtek",
+      "livery": "Alt"
+    },
+    "Gtek:Neon": {
+      "id": 21597064,
+      "name": "G-Tek Neon Livery",
+      "ship": "Gtek",
+      "livery": "Neon"
+    },
+    "Gtek:Clean": {
+      "id": 21597065,
+      "name": "G-Tek Clean Livery",
+      "ship": "Gtek",
+      "livery": "Clean"
+    },
+    "Gtek:Stealth": {
+      "id": 21597066,
+      "name": "G-Tek Stealth Livery",
+      "ship": "Gtek",
+      "livery": "Stealth"
+    }
+  },
+  "access_item_names": {
+    "Techno": "Techno Invitational",
+    "Urban": "Urban Invitational",
+    "Reflex": "Reflex Invitational",
+    "Ascension": "Ascension Invitational",
+    "Descension": "Descension Invitational",
+    "Speed Freak": "Speed Freak Invitational",
+    "Zen Zeus": "Zen Zeus Invitational",
+    "Finale A": "Finale A Entry",
+    "Finale B": "Finale B Entry",
+    "Finale C": "Finale C Entry"
+  },
+  "legacy_v24_digest": "f2b45e67edcbe8b8ce90027cea57603fdc77696f265c58186d122e1629c064e7",
+  "trap_items": {
+    "airbrake_mix_up_trap": {
+      "id": 21598000,
+      "name": "Airbrake Mix-Up Trap",
+      "kind": 0
+    },
+    "gotta_go_fast_trap": {
+      "id": 21598001,
+      "name": "\"Gotta Go Fast!\" Trap",
+      "kind": 1
+    },
+    "pit_crew_miscalculation_trap": {
+      "id": 21598002,
+      "name": "Pit Crew Miscalculation Trap",
+      "kind": 2
+    },
+    "cockpit_lockdown_trap": {
+      "id": 21598003,
+      "name": "Cockpit Lockdown Trap",
+      "kind": 3
+    },
+    "hes_right_behind_me_trap": {
+      "id": 21598004,
+      "name": "He’s Right Behind Me, Isn’t He? Trap",
+      "kind": 4
+    },
+    "art_appreciation_trap": {
+      "id": 21598005,
+      "name": "Art Appreciation Trap",
+      "kind": 5
+    },
+    "backseat_gaming_trap": {
+      "id": 21598006,
+      "name": "Backseat Gaming Trap",
+      "kind": 6
+    },
+    "running_in_the_90s_trap": {
+      "id": 21598007,
+      "name": "Running in the 90s Trap",
+      "kind": 7
+    },
+    "mirror_trap": {
+      "id": 21598008,
+      "name": "Mirror Trap",
+      "kind": 8
+    }
+  },
+  "legacy_v25_digest": "845bff68560bd09eb59660cd0dd5634462034882316f9de61e6d2b48cb371300",
+  "legacy_v26_digest": "9fed11e54d1dec21c05c506baffff47f9758186ae495659782447911b6f31f26",
+  "legacy_v28_digest": "dbf810f701765bde1277d074f1343e7948b80385e402213b2607bd3f95cb1cca",
+  "ai_presets": {
+    "relaxed": {
+      "Breeze": {
+        "level": 0,
+        "min_speed": 0.9,
+        "max_speed": 0.98
+      },
+      "Techno": {
+        "level": 0,
+        "min_speed": 0.9,
+        "max_speed": 0.98
+      },
+      "Urban": {
+        "level": 0,
+        "min_speed": 0.9,
+        "max_speed": 0.98
+      },
+      "Reflex": {
+        "level": 1,
+        "min_speed": 0.9,
+        "max_speed": 0.98
+      },
+      "Ascension": {
+        "level": 1,
+        "min_speed": 0.9,
+        "max_speed": 0.98
+      },
+      "Descension": {
+        "level": 1,
+        "min_speed": 0.9,
+        "max_speed": 0.98
+      },
+      "Speed Freak": {
+        "level": 1,
+        "min_speed": 0.9,
+        "max_speed": 0.98
+      },
+      "Zen Zeus": {
+        "level": 1,
+        "min_speed": 0.9,
+        "max_speed": 0.98
+      }
+    },
+    "legacy_balanced": {
+      "Breeze": {
+        "level": 1,
+        "min_speed": 0.95,
+        "max_speed": 1.0
+      },
+      "Techno": {
+        "level": 1,
+        "min_speed": 0.95,
+        "max_speed": 1.0
+      },
+      "Urban": {
+        "level": 1,
+        "min_speed": 0.95,
+        "max_speed": 1.0
+      },
+      "Reflex": {
+        "level": 1,
+        "min_speed": 0.95,
+        "max_speed": 1.0
+      },
+      "Ascension": {
+        "level": 1,
+        "min_speed": 0.95,
+        "max_speed": 1.0
+      },
+      "Descension": {
+        "level": 1,
+        "min_speed": 0.95,
+        "max_speed": 1.0
+      },
+      "Speed Freak": {
+        "level": 2,
+        "min_speed": 0.95,
+        "max_speed": 1.0
+      },
+      "Zen Zeus": {
+        "level": 2,
+        "min_speed": 0.95,
+        "max_speed": 1.0
+      }
+    },
+    "standard": {
+      "Breeze": {
+        "level_cap": null,
+        "native_speed_factor": 1,
+        "max_speed": null
+      },
+      "Techno": {
+        "level_cap": null,
+        "native_speed_factor": 1,
+        "max_speed": null
+      },
+      "Urban": {
+        "level_cap": null,
+        "native_speed_factor": 1,
+        "max_speed": null
+      },
+      "Reflex": {
+        "level_cap": null,
+        "native_speed_factor": 1,
+        "max_speed": null
+      },
+      "Ascension": {
+        "level_cap": null,
+        "native_speed_factor": 0.98,
+        "max_speed": null
+      },
+      "Descension": {
+        "level_cap": null,
+        "native_speed_factor": 0.98,
+        "max_speed": null
+      },
+      "Speed Freak": {
+        "level_cap": 1,
+        "native_speed_factor": null,
+        "max_speed": 0.97
+      },
+      "Zen Zeus": {
+        "level_cap": 2,
+        "native_speed_factor": null,
+        "max_speed": 0.95
+      }
+    }
+  },
+  "legacy_v29_digest": "46abb57b2fcd2b6b2458dc6ef90dae7debda0e859a6a9a34d6a024d6a6885cf4",
+  "digest": "4c275f56fb0e213fbc894aa3db4d11d23b75f01e581726038216e47346745a59"
+}

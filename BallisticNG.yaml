@@ -1,0 +1,207 @@
+﻿# Q. What is this file?
+# A. This file contains options which allow you to configure your multiworld experience while allowing
+#    others to play how they want as well.
+#
+# Q. How do I use it?
+# A. The options in this file are weighted. This means the higher number you assign to a value, the
+#    more chances you have for that option to be chosen. For example, an option like this:
+#
+#    map_shuffle:
+#      on: 5
+#      off: 15
+#
+#    Means you have 5 chances for map shuffle to occur, and 15 chances for map shuffle to be turned
+#    off.
+#
+# Q. I've never seen a file like this before. What characters am I allowed to use?
+# A. This is a .yaml file. You are allowed to use most characters.
+#    To test if your yaml is valid or not, you can use this website:
+#        http://www.yamllint.com/
+#    You can also verify that your Archipelago options are valid at this site:
+#        https://archipelago.gg/check
+
+# Your name in-game, limited to 16 characters.
+#     {player} will be replaced with the player's slot number.
+#     {PLAYER} will be replaced with the player's slot number, if that slot number is greater than 1.
+#     {number} will be replaced with the counter value of the name.
+#     {NUMBER} will be replaced with the counter value of the name, if the counter value is greater than 1.
+name: Player{number}
+
+# Used to describe your yaml. Useful if you have multiple files.
+description: Default BallisticNG Template
+
+game: BallisticNG
+requires:
+  version: 0.6.7 # Version of Archipelago required for this yaml to work as expected.
+
+BallisticNG:
+  ################
+  # Game Options #
+  ################
+  progression_balancing:
+    # A system that can move progression earlier, to try and prevent the player from getting stuck and bored early.
+    # 
+    # A lower setting means more getting stuck. A higher setting means less getting stuck.
+    #
+    # You can define additional values between the minimum and maximum values.
+    # Minimum value is 0
+    # Maximum value is 99
+    random: 0
+    random-low: 0 # random value weighted towards lower values
+    random-high: 0 # random value weighted towards higher values
+    random-range-0-99: 0 # random value between 0 and 99
+    disabled: 0 # equivalent to 0
+    normal: 50 # equivalent to 50
+    extreme: 0 # equivalent to 99
+
+  accessibility:
+    # Set rules for reachability of your items/locations.
+    # 
+    # **Full:** ensure everything can be reached and acquired.
+    # 
+    # **Minimal:** ensure what is needed to reach your goal can be acquired.
+    full: 50
+    minimal: 0
+
+  required_medal:
+    # BallisticNG Archipelago
+    # 
+    # Race through the AGL 2159 campaign to send items to players across the
+    # multiworld and receive unlocks from their checks.
+    # 
+    # Campaign invitations, track permits, speed licenses, ships, and ship
+    # appearances are shuffled into the item pool. You begin with a random
+    # ship and access to the starting Breeze events.
+    # 
+    # Goal — AGL Champion:
+    # Claim the AGL crown at the Zen Zeus Invitational.
+    # Unlock AGL 2159 Finale A, B, and C in the Zen Zeus campaign,
+    # then take 1st place overall in all three tournaments.
+    # Each finale requires its own Entry item and the appropriate
+    # track, speed, and ship access.
+    # 
+    # Required Medal:
+    # Choose the medal needed to send an event's main Archipelago check.
+    # Earning that medal or better awards the check; a lower result does not.
+    # Bronze is the easiest requirement; Gold is the most demanding.
+    # This changes the required result, not the game's difficulty setting.
+    # Survival always has separate Bronze, Silver and Gold checks. Checks above your
+    # selected medal cannot contain progression, so higher medals are optional for goal.
+    # The three AGL 2159 Finale tournaments in Zen Zeus always require 1st place
+    # overall, regardless of this setting.
+    bronze: 0
+    silver: 0
+    gold: 50
+
+  ai_preset:
+    # Choose how tough AI opponents are during normal-mode AP campaign events.
+    # Standard (recommended): keeps the early campaigns familiar and eases later
+    # opponents so more of your unlocked ships can compete.
+    # Relaxed: gentler opponents throughout, for a more casual run.
+    # Original: keeps the game's usual event difficulty, for the original challenge.
+    # These presets do not change native hard mode or solo medal targets.
+    original: 0
+    relaxed: 0
+    standard: 50
+
+  barrel_rolls:
+    # Add barrel rolls to AP campaign events for an extra way to boost.
+    # Roll while airborne using your roll controls or a quick left-right-left /
+    # right-left-right steering input. Rolls spend shield and reward a successful
+    # landing with a short boost. Enabled by default for fun; never required to finish.
+    'false': 0
+    'true': 50
+
+  traps:
+    # Replace the 18 blank Pit Crew Encouragement items with random traps.
+    # Choose which traps can appear below. Each enabled trap appears at least
+    # once; the remaining copies are random. Turning traps off keeps the blank
+    # items, which do nothing. Enable at least one trap type when traps are on.
+    # Traps wait until racing begins and activate one at a time.
+    'false': 50
+    'true': 0
+
+  airbrake_mix_up_trap:
+    # Swap your left and right airbrakes for 8 seconds.
+    'false': 0
+    'true': 50
+
+  gotta_go_fast_trap:
+    # Stretch your view to an extreme wide angle for 8 seconds.
+    'false': 0
+    'true': 50
+
+  pit_crew_miscalculation_trap:
+    # Lose 30 shield, stopping at 1 so the trap cannot destroy your ship.
+    'false': 0
+    'true': 50
+
+  cockpit_lockdown_trap:
+    # Lock your camera to cockpit view for 15 seconds.
+    'false': 0
+    'true': 50
+
+  hes_right_behind_me_trap:
+    # Make you look behind your ship for 3 seconds.
+    'false': 0
+    'true': 50
+
+  art_appreciation_trap:
+    # Display random game concept art near the center of your screen for 5 seconds.
+    'false': 0
+    'true': 50
+
+  backseat_gaming_trap:
+    # "The Game's Playing Itself Jon"
+    # Let autopilot take the wheel for 8 seconds.
+    'false': 0
+    'true': 50
+
+  running_in_the_90s_trap:
+    # Give the race a low-resolution, retro CRT look for 20 seconds.
+    'false': 0
+    'true': 50
+
+  mirror_trap:
+    # Mirror the race view for 10 seconds. Your HUD and controls stay unchanged.
+    'false': 0
+    'true': 50
+
+  ###########################
+  # Item & Location Options #
+  ###########################
+  local_items:
+    # Forces these items to be in their native world.
+    []
+
+  non_local_items:
+    # Forces these items to be outside their native world.
+    []
+
+  start_inventory:
+    # Start with the specified amount of these items. Example: "Bomb: 1"
+    {}
+
+  start_hints:
+    # Start with these item's locations prefilled into the ``!hint`` command.
+    []
+
+  start_location_hints:
+    # Start with these locations and their item prefilled into the ``!hint`` command.
+    []
+
+  exclude_locations:
+    # Prevent these locations from having an important item.
+    []
+
+  priority_locations:
+    # Prevent these locations from having an unimportant item.
+    []
+
+  item_links:
+    # Share part of your item pool with other players.
+    []
+
+  plando_items:
+    # Generic items plando.
+    []
