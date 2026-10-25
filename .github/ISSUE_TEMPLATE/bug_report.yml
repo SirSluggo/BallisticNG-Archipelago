@@ -1,0 +1,53 @@
+name: Bug report
+description: Report a reproducible problem in BallisticNG Archipelago.
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: "Please review the known issues first. Remove passwords and private chat from logs before attaching them."
+  - type: input
+    id: mod_version
+    attributes:
+      label: Mod version shown in F2
+      placeholder: v0.36.1
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Operating system and BallisticNG version/branch
+    validations:
+      required: true
+  - type: dropdown
+    id: save
+    attributes:
+      label: Loaded save
+      options:
+        - Normal save
+        - AP save
+        - Could not reach F2
+    validations:
+      required: true
+  - type: dropdown
+    id: connection
+    attributes:
+      label: Connection state
+      options:
+        - Connected to a seed
+        - Disconnected
+        - During first setup or connection
+        - Unknown
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps, expected result and actual result
+      description: Include whether it repeats, any custom ships/tracks, and relevant YAML options.
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Logs or screenshots
+      description: Attach relevant files from the installed mod's Logs folder; for a game crash, preserve the Unity log before relaunching. Do not upload your whole save folder unless specifically needed.
