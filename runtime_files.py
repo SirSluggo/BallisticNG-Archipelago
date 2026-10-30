@@ -2,10 +2,10 @@
 from pathlib import Path
 import re
 from functools import lru_cache
-DATA={'layout-migration.json','active-session.txt','bridge-heartbeat.txt','profile-request.json','panel-status.txt','panel-settings.txt','panel-command.txt','panel-command.tmp','panel-recovery.txt','comms-state.txt','comms-command.txt','comms-command.tmp'}
+DATA={'layout-migration.json','active-session.txt','bridge-heartbeat.txt','profile-request.json','panel-status.txt','panel-settings.txt','consumable-bindings.txt','panel-command.txt','panel-command.tmp','panel-recovery.txt','comms-state.txt','comms-command.txt','comms-command.tmp'}
 LOGS={'events.tsv','panel-bridge.log','setup-panel.log','offline-normal.log','trap-test.log','save-isolation.txt','profile-recovery.txt'}
 CACHE={'appearance-catalog-ready.txt','appearance-catalog.tsv','appearance-variants.tsv','ship-catalog-ready.txt','ship-catalog.tsv','event-ship-requirements.tsv'}
-SESSION=re.compile(r'^(access|activity|checks|rules|profile|toasts|traps|trap-acks)-[0-9a-f]{32}\.(txt|tmp)$')
+SESSION=re.compile(r'^(access|activity|checks|rules|profile|toasts|traps|trap-acks|consumables)-[0-9a-f]{32}\.(txt|tmp)$')
 def category(name):
     if name in LOGS:return 'Logs'
     if name in CACHE:return 'Cache'

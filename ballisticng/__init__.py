@@ -4,7 +4,7 @@ from BaseClasses import Item,ItemClassification,Location,Region
 from worlds.AutoWorld import World,WebWorld
 from Options import OptionGroup,item_and_loc_options
 from .options import BallisticNGOptions
-from .medals import locations
+from .medals import locations,LOCATION_SCHEMA,ASSIST_ID,ASSIST_NAME,ASSIST_COPIES
 
 M=json.loads(files(__package__).joinpath('manifest.json').read_text(encoding='utf-8'))
 GATES={item.get('gate',item['name']):item['name'] for group in ('track_items','speed_items') for item in M[group].values()}
@@ -30,7 +30,8 @@ class BallisticNGWorld(World):
     item_name_to_id.update({item['name']:item['id'] for group in ('ship_items','track_items','speed_items','cosmetic_items') for item in M[group].values()})
     item_name_to_id.update({v['name']:v['id'] for v in M['trap_items'].values()})
     item_name_to_id['Pit Crew Encouragement']=M['filler_id']
-    location_name_to_id={row['name']:row['id'] for row in locations(M,4,True)}
+    item_name_to_id[ASSIST_NAME]=ASSIST_ID
+    location_name_to_id={row['name']:row['id'] for row in locations(M,3,True,True)}
 
     def generate_early(self):
         if self.options.traps and not self.enabled_trap_names():
@@ -42,7 +43,7 @@ class BallisticNGWorld(World):
         # Harpstone supplies three free race checks; Zephyr expands the opening further.
         self.multiworld.local_early_items[self.player][GATES['Zephyr Ridge Track Access']]=1
 
-    def configured_locations(self):return locations(M,self.options.required_medal.value,True)
+    def configured_locations(self):return locations(M,self.options.required_medal.value,True,True)
     def create_regions(self):
         menu=Region('Menu',self.player,self.multiworld);self.multiworld.regions.append(menu)
         rows=self.configured_locations()
@@ -58,21 +59,25 @@ class BallisticNGWorld(World):
     def create_item(self,name):
         required_ships=set(M['required_ships'].values())
         optional_ships={item['name'] for ship,item in M['ship_items'].items() if ship not in required_ships}
-        classification=ItemClassification.trap if name in {v['name'] for v in M['trap_items'].values()} else ItemClassification.filler if name=='Pit Crew Encouragement' or name in optional_ships or name in {v['name'] for v in M['cosmetic_items'].values()} else ItemClassification.progression
+        classification=ItemClassification.trap if name in {v['name'] for v in M['trap_items'].values()} else ItemClassification.filler if name in ('Pit Crew Encouragement',ASSIST_NAME) or name in optional_ships or name in {v['name'] for v in M['cosmetic_items'].values()} else ItemClassification.progression
         return BNGItem(name,classification,self.item_name_to_id[name],self.player)
     def create_items(self):
         names=[M['access_item_names'][n] for n in M['access_items']]+[item['name'] for group in ('ship_items','track_items','speed_items','cosmetic_items') for item in M[group].values()]
         names=[n for n in names if n not in self.starting_items]
         self.multiworld.itempool += [self.create_item(n) for n in names]
         filler_count=len(self.configured_locations())-len(names)
+        assist_count=min(ASSIST_COPIES,filler_count)
+        self.multiworld.itempool += [self.create_item(ASSIST_NAME) for _ in range(assist_count)]
+        filler_count-=assist_count
         if self.options.traps:
             enabled=self.enabled_trap_names()
-            if filler_count< len(enabled):raise ValueError('BallisticNG: not enough filler slots for enabled trap types.')
-            trap_names=enabled+self.random.choices(enabled,k=filler_count-len(enabled))
+            trap_count=filler_count
+            if trap_count<len(enabled):raise ValueError('BallisticNG: not enough trap slots.')
+            trap_names=enabled+self.random.choices(enabled,k=trap_count-len(enabled))
             self.random.shuffle(trap_names)
             self.multiworld.itempool += [self.create_item(name) for name in trap_names]
-        else:
-            self.multiworld.itempool += [self.create_item('Pit Crew Encouragement') for _ in range(filler_count)]
+            filler_count-=trap_count
+        self.multiworld.itempool += [self.create_item('Pit Crew Encouragement') for _ in range(filler_count)]
     def set_rules(self):
         events={e['key']:e for e in M['events']}
         for row in self.configured_locations():
@@ -92,4 +97,4 @@ class BallisticNGWorld(World):
         self.multiworld.completion_condition[self.player]=lambda state:state.has('Victory',self.player)
     def enabled_trap_names(self):return [v['name'] for key,v in M['trap_items'].items() if getattr(self.options,key)]
     def get_filler_item_name(self):return self.random.choice(self.enabled_trap_names()) if self.options.traps else 'Pit Crew Encouragement'
-    def fill_slot_data(self):return {'bridge_protocol':30,'ai_preset':self.options.ai_preset.value,'barrel_rolls':int(bool(self.options.barrel_rolls)),'manifest_digest':M['digest'],'goal_keys':M['goal_keys'],'required_medal':self.options.required_medal.value,'survival_milestones':1,'starting_ship':self.starting_ship,'starting_track':M['starting_track'],'traps':int(bool(self.options.traps)),'enabled_traps':self.enabled_trap_names() if self.options.traps else []}
+    def fill_slot_data(self):return {'bridge_protocol':31,'golden_race_passes':int(bool(self.options.golden_race_passes)),'passes_in_finales':int(bool(self.options.passes_in_finales)),'passes_in_survival':int(bool(self.options.passes_in_survival)),'location_schema':LOCATION_SCHEMA,'ai_preset':self.options.ai_preset.value,'barrel_rolls':int(bool(self.options.barrel_rolls)),'manifest_digest':M['digest'],'goal_keys':M['goal_keys'],'required_medal':self.options.required_medal.value,'survival_milestones':1,'starting_ship':self.starting_ship,'starting_track':M['starting_track'],'traps':int(bool(self.options.traps)),'enabled_traps':self.enabled_trap_names() if self.options.traps else []}

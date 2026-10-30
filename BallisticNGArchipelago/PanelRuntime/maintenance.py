@@ -5,7 +5,7 @@ from datetime import datetime,timezone
 from runtime_files import category,route,rotate,SESSION
 from save_profiles import ensure_game_closed,plain_path,profile_key,atomic_json
 from bridge_lock import BridgeLock
-from medal_rules import locations
+from medal_rules import locations,LOCATION_SCHEMA
 from trap_delivery import read_acknowledgments,pending_traps
 from history_recovery import backup_state
 
@@ -37,7 +37,8 @@ def cleanup_sessions(mod,state_dir,closed=ensure_game_closed):
     if not state_dir.exists():return {'removed':0,'retained':0}
     closed()
     manifest=json.loads((Path(__file__).parent/'manifest.json').read_text())
-    checks={row['key']:row['id'] for medal in (1,2,3) for row in locations(manifest,medal,True)}
+    legacy_checks={row['key']:row['id'] for medal in (1,2,3) for row in locations(manifest,medal,True)}
+    universal_checks={row['key']:row['id'] for row in locations(manifest,3,True,True)}
     data=mod/'Data';removed=retained=0
     if not data.exists():return {'removed':0,'retained':0}
     active=(data/'active-session.txt').read_text().strip() if (data/'active-session.txt').exists() else None
@@ -56,6 +57,14 @@ def cleanup_sessions(mod,state_dir,closed=ensure_game_closed):
             if profile_key(state['identity'])!=key:raise ValueError('identity mismatch')
             rules=(data/('rules-'+token+'.txt')).read_text().splitlines()
             if len(rules)<2 or rules[:2]!=[token,manifest['digest']]:raise ValueError('unknown catalog/session')
+            schema=state.get('location_schema','legacy')
+            if schema==LOCATION_SCHEMA:
+                if len(rules)!=10 or rules[6]!=LOCATION_SCHEMA:raise ValueError('location schema mismatch')
+                checks=universal_checks
+            elif schema=='legacy':
+                if len(rules)>6:raise ValueError('location schema mismatch')
+                checks=legacy_checks
+            else:raise ValueError('unknown location schema')
             # Unknown check/ack records are retained for diagnosis rather than discarded.
             path=data/('checks-'+token+'.txt');lines=path.read_text().splitlines() if path.exists() else []
             if any(line and line not in checks for line in lines):raise ValueError('unknown check')

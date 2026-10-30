@@ -7,9 +7,9 @@ class TemplateSyncTests(unittest.TestCase):
  def tearDown(self):self.tmp.cleanup()
  def change(self,before,after):
   p=self.root/'BallisticNG.yaml';s=p.read_text(encoding='utf-8-sig');self.assertIn(before,s);p.write_text(s.replace(before,after,1))
- def test_canonical_template_passes(self):self.assertEqual(module.validate_template(self.root),13)
+ def test_canonical_template_passes(self):self.assertEqual(module.validate_template(self.root),16)
  def test_old_trap_description_rejected(self):
-  self.change('Replace the 18 blank Pit Crew Encouragement items with random traps.','Old trap wording.')
+  self.change('Replace every Pit Crew Encouragement item with a random trap.','Old trap wording.')
   with self.assertRaisesRegex(ValueError,'description'):module.validate_template(self.root)
  def test_old_progression_default_rejected(self):
   self.change('normal: 50 # equivalent to 50','normal: 0 # equivalent to 50')

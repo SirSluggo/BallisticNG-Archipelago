@@ -20,6 +20,12 @@ namespace BallisticNGArchipelago {
    current.ShipsCanBarrelRoll=true;
    return true;
   }
+  public void Maintain() {
+   if(config==null)return;
+   if(RaceManager.CurrentGmConfig!=config || RaceManager.Instance!=manager) { Apply();return; }
+   manager.LeaderboardsDisabled=true;
+   config.ShipsCanBarrelRoll=true;
+  }
   public void Restore() {
    if(config==null) return;
    config.ShipsCanBarrelRoll=originalRolls;

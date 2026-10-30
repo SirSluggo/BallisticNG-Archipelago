@@ -1,4 +1,4 @@
-BALLISTICNG ARCHIPELAGO - v0.36.1 (test build)
+BALLISTICNG ARCHIPELAGO - v0.37.4 (test build)
 
 1. INSTALL PYTHON FIRST
    Install Python 3.11 or newer from https://www.python.org/downloads/windows/
@@ -11,8 +11,8 @@ BALLISTICNG ARCHIPELAGO - v0.36.1 (test build)
    Copy the BallisticNGArchipelago folder into:
    BallisticNG\User\Mods\Code Mods\
 
-   If updating, back up the full existing mod folder first.
-   Do not install two copies. Existing saves stay in place.
+   For a clean install, move the old mod folder outside Code Mods and keep
+   it as a backup. Do not enable two copies. Existing saves stay in place.
 
 3. CONNECT IN THE GAME
    Enable BallisticNGArchipelago in the game's code-mod menu.
@@ -24,7 +24,20 @@ BALLISTICNG ARCHIPELAGO - v0.36.1 (test build)
 HOSTING YOUR OWN SEED?
    Install ballisticng.apworld in Archipelago. Use BallisticNG.yaml to
    generate a seed, then host the generated room. Existing compatible
-   seeds still work; this update does not require a new seed.
+   seeds retain their old checks. Generate a FRESH seed with this apworld
+   for 303 universal medal checks and consumables.
+
+CONSUMABLES (NEW SEEDS)
+   F4 opens Autopilot Assist controls in menus or while fully paused.
+   Click Change and press an unused keyboard key/controller button.
+   Races show only small Assist/Pass counts at bottom left. Click the Pass
+   count button after countdown to use one; passes do not have bindings.
+   Pass rewards appear as item notifications. Assist uses native engaged,
+   calculating-loop and disengaged audio; no Time Trial/Survival use.
+   Passes clear only the CURRENT tournament round. Finale/Survival use is
+   off by default. Assisted results cannot earn another pass.
+   Traps ON means all remaining filler is traps, with no encouragement.
+   Generate a fresh seed for that pool change; existing rooms retain theirs.
 
 SAVES
    Each AP seed/slot has separate local progress. F2 can return to your
@@ -40,3 +53,5 @@ KNOWN ISSUE: returning from the idle menu demo can crash. Under investigation.
 
 This is a development test build. Developer-Source.zip contains source,
 troubleshooting notes, test details and AI disclosure. Harmony license included.
+
+Hosted rooms: use wss://archipelago.gg in the Server field and the room port in the separate Port field. Bare hosted names now select wss automatically; verify connection in game. Explicit ws:// remains available for local servers.

@@ -58,6 +58,11 @@ namespace BallisticNGArchipelago {
    }
    PlayNotification(soundKind);
   }
+  public void LocalReward(string name,string reason) {
+   visible.Add(new Toast { Name=name,Kind="EARNED",Peer=reason,Started=Time.realtimeSinceStartup });
+   while(visible.Count>3)visible.RemoveAt(0);
+   PlayNotification(3);
+  }
   private void PlayNotification(int kind) {
    if(kind==0 || Time.realtimeSinceStartup<nextSoundAt) return;
    // One cue per batch; no overlap and no delayed queue of old receipt sounds.
@@ -90,14 +95,14 @@ namespace BallisticNGArchipelago {
      if(age>=6f) continue;
      float alpha=Mathf.Clamp01(age/0.15f)*Mathf.Clamp01((6f-age)/0.5f);
      float x=Screen.width-width-18f*scale,y=Screen.height-30f*scale-height-position*(height+7f*scale);position++;
-     Color accent=toast.Trap ? new Color(0.96f,0.38f,0.45f,alpha) : toast.Progression ? new Color(0.96f,0.77f,0.38f,alpha):new Color(0.62f,0.69f,0.78f,alpha);
+     Color accent=toast.Trap ? new Color(0.96f,0.38f,0.45f,alpha) : (toast.Progression || toast.Kind=="EARNED") ? new Color(0.96f,0.77f,0.38f,alpha):new Color(0.62f,0.69f,0.78f,alpha);
      GUI.color=new Color(0.035f,0.045f,0.065f,0.85f*alpha);GUI.DrawTexture(new Rect(x,y,width,height),Texture2D.whiteTexture);
      GUI.color=accent;GUI.DrawTexture(new Rect(x,y,3f*scale,height),Texture2D.whiteTexture);
      GUI.color=new Color(1f,1f,1f,alpha);headingStyle.normal.textColor=accent;
      GUI.Label(new Rect(x+12f*scale,y+5f*scale,width-22f*scale,17f*scale),toast.Kind,headingStyle);
      nameStyle.normal.textColor=Color.white;
      GUI.Label(new Rect(x+12f*scale,y+23f*scale,width-22f*scale,36f*scale),toast.Name,nameStyle);
-     string peerText=toast.Kind=="SENT" ? "To "+toast.Peer : (toast.Kind=="RECEIVED" ? "From "+toast.Peer:"Your check");
+     string peerText=toast.Kind=="SENT" ? "To "+toast.Peer : (toast.Kind=="RECEIVED" ? "From "+toast.Peer:(toast.Kind=="EARNED" ? toast.Peer:"Your check"));
      GUI.Label(new Rect(x+12f*scale,y+59f*scale,width-22f*scale,16f*scale),peerText,peerStyle);
     }
    } finally { GUI.color=originalColor;GUI.depth=originalDepth; }

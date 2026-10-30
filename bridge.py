@@ -11,7 +11,7 @@ import uuid
 import time
 import websockets
 from event_activity import activity,own_hint_locations,event_remaining,optional_only_events
-from medal_rules import locations,validate_rules
+from medal_rules import locations,validate_rules,LOCATION_SCHEMA,ASSIST_ID,ASSIST_NAME
 from comms import Comms
 from trap_delivery import pending_traps,read_acknowledgments
 from history_recovery import HistoryConflict,HistorySyncRequired,normalized,digest,backup_state,review,can_apply
@@ -25,6 +25,7 @@ ITEM_NAMES.update({item['id']:item['name'] for group in ('track_items','speed_it
 ITEM_NAMES.update({item['id']:item['name'] for item in M['cosmetic_items'].values()})
 ITEM_NAMES.update({v['id']:v['name'] for v in M['trap_items'].values()})
 TRAP_IDS={v['id'] for v in M['trap_items'].values()}
+ITEM_NAMES[ASSIST_ID]=ASSIST_NAME
 ITEM_NAMES[M['filler_id']] = 'Pit Crew Encouragement'
 PROGRESSION_IDS = set(M['access_items'].values()) | {v['id'] for group in ('track_items','speed_items') for v in M[group].values()} | {v['id'] for ship,v in M['ship_items'].items() if ship in set(M['required_ships'].values())}
 GOAL_LOCATIONS = frozenset(CHECKS[key] for key in M['goal_keys'])
@@ -86,7 +87,9 @@ class Bridge:
         self.hinted = set()
         self.hints_ready = False
         self.last_hint_refresh = 0
-        self.required_medal=3;self.survival_milestones=False
+        self.required_medal=3;self.survival_milestones=False;self.universal=False
+        self.goal_locations=GOAL_LOCATIONS
+        self.pass_options=[0,0,0]
         self.locations=locations(M);self.checks={r["key"]:r["id"] for r in self.locations}
         self.progression_ids=PROGRESSION_IDS
         self.comms=Comms(self,M,ITEM_NAMES,GOAL_LOCATIONS,atomic_text)
@@ -101,6 +104,13 @@ class Bridge:
         if acknowledged-consumed:
             candidate=dict(self.state,trap_consumed=sorted(consumed|acknowledged))
             atomic_json(self.state_path,candidate);self.state=candidate
+
+    def publish_consumables(self):
+        if not self.ready or not self.token or not self.universal:return
+        total=sum(item['item']==ASSIST_ID for item in self.state['items'])
+        content='\n'.join([self.token,M['digest'],str(total)])+'\n'
+        path=route(self.mod,'consumables-'+self.token+'.txt')
+        if not path.exists() or path.read_text(encoding='utf-8')!=content:atomic_text(path,content)
 
     def publish_traps(self):
         if not self.ready or not self.token:return
@@ -146,19 +156,19 @@ class Bridge:
     def activate(self):
         key=self.state_path.stem
         self.token=uuid.uuid4().hex
-        atomic_text(route(self.mod,'rules-'+self.token+'.txt'),'\n'.join([self.token,M['digest'],str(self.required_medal),'1' if self.survival_milestones else '0','1' if self.barrel_rolls else '0',str(self.ai_preset)])+'\n')
+        atomic_text(route(self.mod,'rules-'+self.token+'.txt'),'\n'.join([self.token,M['digest'],str(self.required_medal),'1' if self.survival_milestones else '0','1' if self.barrel_rolls else '0',str(self.ai_preset)]+([LOCATION_SCHEMA]+[str(v) for v in self.pass_options] if self.universal else []))+'\n')
         atomic_text(route(self.mod,'profile-'+self.token+'.txt'),key+'\n')
         atomic_json(route(self.mod,'profile-request.json'),{'schema':1,'token':self.token,'key':key,'identity':self.state['identity'],'slot_name':self.name})
         self.published_access=None
         self.ready=True
         self.published_traps=None
-        self.publish_unlock();self.publish_toasts();self.publish_traps()
+        self.publish_unlock();self.publish_toasts();self.publish_traps();self.publish_consumables()
         self.comms.location_maps[GAME]={row['id']:row['name'] for row in self.locations}
         self.comms.log('SYSTEM','Item history validated. Connected as '+self.name+'.')
         self.comms.publish()
         # Publish activation last, after validated history and the access files exist.
         atomic_text(route(self.mod,'active-session.txt'),self.token)
-        print('Connected to BallisticNG v0.36.1. Item history validated; ready for AP play.',flush=True)
+        print('Connected to BallisticNG v0.37.4. Item history validated; ready for AP play.',flush=True)
         print('Starting ship: '+M['ship_items'][self.starting_ship]['name']+'; starting track: Harpstone.',flush=True)
         print('Save profile ready. Use F2 -> Restart into connected AP save if needed.',flush=True)
 
@@ -188,23 +198,31 @@ class Bridge:
             if self.token:self.deactivate()
             d = p.get('slot_data', {})
             protocol=d.get('bridge_protocol')
-            expected_digest={30:M['digest'],29:M['legacy_v29_digest'],28:M['legacy_v28_digest'],26:M['legacy_v26_digest'],25:M['legacy_v25_digest'],24:M['legacy_v24_digest']}.get(protocol)
+            expected_digest={31:M['digest'],30:M['digest'],29:M['legacy_v29_digest'],28:M['legacy_v28_digest'],26:M['legacy_v26_digest'],25:M['legacy_v25_digest'],24:M['legacy_v24_digest']}.get(protocol)
             if expected_digest is None or d.get('manifest_digest')!=expected_digest or d.get('goal_keys')!=M['goal_keys']:
                 raise ValueError('Wrong game/catalog: generate a fresh v0.31 BallisticNG seed.')
-            traps=d.get('traps',0) if protocol in (25,26,28,29,30) else 0
+            traps=d.get('traps',0) if protocol in (25,26,28,29,30,31) else 0
             if type(traps) not in (bool,int) or traps not in (0,1):raise ValueError('Invalid trap setting')
             self.traps_enabled=bool(traps)
-            rolls=d.get('barrel_rolls') if protocol in (28,29,30) else 0
+            rolls=d.get('barrel_rolls') if protocol in (28,29,30,31) else 0
             if type(rolls) not in (bool,int) or rolls not in (0,1):raise ValueError('Invalid barrel roll setting')
             self.barrel_rolls=bool(rolls)
-            preset=d.get('ai_preset') if protocol in (29,30) else 0
+            preset=d.get('ai_preset') if protocol in (29,30,31) else 0
             if type(preset) is not int or preset not in (0,1,2):raise ValueError('Invalid AI preset')
             self.ai_preset=3 if protocol==29 and preset==2 else preset
             self.starting_ship=d.get('starting_ship')
             if self.starting_ship not in M['starting_ship_candidates'] or d.get('starting_track')!=M['starting_track']:
                 raise ValueError('Invalid starting inventory; generate a fresh v0.31 seed.')
             self.required_medal,self.survival_milestones=validate_rules(d.get('required_medal'),d.get('survival_milestones'))
-            self.locations=locations(M,self.required_medal,self.survival_milestones)
+            self.pass_options=[d.get(k,0) for k in ('golden_race_passes','passes_in_finales','passes_in_survival')] if protocol==31 else [0,0,0]
+            if any(type(v) not in (bool,int) or v not in (0,1) for v in self.pass_options):raise ValueError('Invalid Golden Race Pass settings')
+            self.pass_options=[int(v) for v in self.pass_options]
+            self.universal=protocol==31
+            if self.universal and (d.get('location_schema')!=LOCATION_SCHEMA or self.required_medal not in (1,2,3)):
+                raise ValueError('Invalid universal location schema; generate a fresh seed.')
+            self.locations=locations(M,self.required_medal,self.survival_milestones,self.universal)
+            self.goal_locations=frozenset(row['id'] for row in self.locations if row['event_key'] in M['goal_keys'] and row['medal']==3) if self.universal else GOAL_LOCATIONS
+            self.comms.goal=self.goal_locations
             self.checks={r['key']:r['id'] for r in self.locations}
             import hashlib
             identity = [self.seed, p['team'], p['slot']]
@@ -215,6 +233,10 @@ class Bridge:
             self.state = json.loads(self.state_path.read_text()) if self.state_path.exists() else {'identity': identity, 'items': []}
             if self.state['identity'] != identity:
                 raise ValueError('Stored room identity mismatch.')
+            schema=LOCATION_SCHEMA if self.universal else 'legacy'
+            if self.state.get('location_schema','legacy')!=schema and self.state_path.exists():
+                raise ValueError('Stored location schema mismatch; use a fresh seed.')
+            self.state['location_schema']=schema
             self.state.setdefault('pending', [])
             self.state.setdefault('notified_sends', [])
             self.state.setdefault('quiet_checks', [])
@@ -402,13 +424,13 @@ class Bridge:
         owned = {x['item'] for x in self.state['items']}
         owned.update((M['ship_items'][self.starting_ship]['id'],next(v['id'] for v in M['track_items'].values() if v['name']==M['starting_track'])))
         hinted = self.hinted - self.checked
-        counts = activity(M,owned,self.checked,hinted,self.required_medal,self.survival_milestones)
+        counts = activity(M,owned,self.checked,hinted,self.required_medal,self.survival_milestones,self.universal)
         lines = [self.token,M['digest'],'hints\t'+('ready' if self.hints_ready else 'pending')]
         lines += ['campaign\t'+name+'\t'+str(count)+'\t'+('1' if blue else '0') for name,(count,blue) in counts.items()]
         hint_events={r['event_key'] for r in self.locations if r['id'] in hinted}
         lines += ['hint\t'+e['key'] for e in M['events'] if e['key'] in hint_events]
-        optional=optional_only_events(M,self.checked,self.required_medal,self.survival_milestones)
-        lines += ['event\t'+key+'\t'+str(count)+'\t'+('1' if key in optional else '0') for key,count in event_remaining(M,self.checked,self.required_medal,self.survival_milestones).items()]
+        optional=optional_only_events(M,self.checked,self.required_medal,self.survival_milestones,self.universal)
+        lines += ['event\t'+key+'\t'+str(count)+'\t'+('1' if key in optional else '0') for key,count in event_remaining(M,self.checked,self.required_medal,self.survival_milestones,self.universal).items()]
         content = '\n'.join(lines)+'\n'
         path = route(self.mod,'activity-'+self.token+'.txt')
         if content != self.published_activity or not path.exists():
@@ -416,6 +438,7 @@ class Bridge:
             self.published_activity = content
 
     def publish_unlock(self):
+        self.publish_consumables()
         if not self.ready or not self.token:
             return
         owned = {x['item'] for x in self.state['items']}
@@ -461,7 +484,7 @@ class Bridge:
             self.last_send = now
             print('Sent campaign check(s):', sorted(pending), flush=True)
         # All three distinct finale wins must be acknowledged by the server. Local goal files are ignored.
-        if GOAL_LOCATIONS.issubset(self.checked) and not self.goal_sent:
+        if self.goal_locations.issubset(self.checked) and not self.goal_sent:
             await self.send(ws, cmd='StatusUpdate', status=30)
             self.goal_sent = True
             print('AGL CHAMPION: Finale A, B and C confirmed; goal reported to Archipelago.', flush=True)

@@ -64,6 +64,7 @@ namespace BallisticNGArchipelago {
   private bool retroCaptured,retroDitherEnabled,retroCrtEnabled;
   private GUIStyle text,small;
 
+  public bool BackseatActive { get { return active==6; } }
   public int PendingCount { get { return queue.Count; } }
   public void Initialize(string path) {
    Instance=this;directory=path;labEnabled=File.Exists(Path.Combine(path,"enable-trap-test.txt"));

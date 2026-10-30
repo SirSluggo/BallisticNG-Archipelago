@@ -59,3 +59,17 @@ class CleanupTests(unittest.TestCase):
   route(self.mod,'active-session.txt').write_text(self.token);self.assertEqual(self.cleanup()['removed'],0)
  def test_missing_state_keeps_session(self):
   self.path.unlink();self.assertEqual(self.cleanup()['removed'],0)
+
+ def test_universal_survival_key_recovers_new_id_not_legacy_id(self):
+  from medal_rules import locations,LOCATION_SCHEMA
+  row=next(r for r in locations(M,3,True,True) if r['event_key'] in M['survival_milestones'] and r['medal']==1)
+  state=json.loads(self.path.read_text());state['location_schema']=LOCATION_SCHEMA;self.path.write_text(json.dumps(state))
+  route(self.mod,'rules-'+self.token+'.txt').write_text('\n'.join([self.token,M['digest'],'3','1','1','2',LOCATION_SCHEMA,'1','0','0'])+'\n')
+  route(self.mod,'checks-'+self.token+'.txt').write_text(row['key']+'\n')
+  self.assertEqual(self.cleanup()['removed'],4)
+  recovered=json.loads(self.path.read_text())['pending'];self.assertIn(row['id'],recovered)
+  self.assertNotIn(M['survival_milestones'][row['event_key']]['Bronze']['id'],recovered)
+ def test_unknown_location_schema_preserves_session(self):
+  state=json.loads(self.path.read_text());state['location_schema']='unknown';self.path.write_text(json.dumps(state))
+  self.assertEqual(self.cleanup()['removed'],0)
+  self.assertTrue(route(self.mod,'checks-'+self.token+'.txt').exists())

@@ -16,6 +16,7 @@ namespace BallisticNGArchipelago {
     case "panel-command.tmp": folder="Data";break;
     case "panel-command.txt": folder="Data";break;
     case "panel-recovery.txt": folder="Data";break;
+    case "consumable-bindings.txt": folder="Data";break;
     case "panel-settings.txt": folder="Data";break;
     case "panel-status.txt": folder="Data";break;
     case "profile-request.json": folder="Data";break;
@@ -33,7 +34,7 @@ namespace BallisticNGArchipelago {
     case "ship-catalog-ready.txt": folder="Cache";break;
     case "ship-catalog.tsv": folder="Cache";break;
    }
-   if(folder==null && Regex.IsMatch(name,@"^(access|activity|checks|rules|profile|toasts|traps|trap-acks)-[0-9a-f]{32}\.(txt|tmp)$")) folder="Data";
+   if(folder==null && Regex.IsMatch(name,@"^(access|activity|checks|rules|profile|toasts|traps|trap-acks|consumables)-[0-9a-f]{32}\.(txt|tmp)$")) folder="Data";
    if(folder==null) return Path.Combine(root,name);
    string parent=Path.Combine(root,folder);
    lock(created) { if(!created.Contains(parent)) {

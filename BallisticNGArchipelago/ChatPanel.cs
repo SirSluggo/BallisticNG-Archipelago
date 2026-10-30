@@ -19,7 +19,7 @@ namespace BallisticNGArchipelago {
   private bool followLog=true,progressionOnly=true;
   private sealed class Row { public string Kind,Text;public bool Progression; }
   private List<Row> logs=new List<Row>(),hints=new List<Row>(),items=new List<Row>();
-  private GUIStyle wrap,rowStyle,titleStyle;private float scale=1f;
+  private GUIStyle wrap,rowStyle,titleStyle,windowStyle;private float scale=1f;
   public bool Visible { get { return visible; } }
   public string Slot { get { return slot; } }
   public string Progress { get { return "Checks "+checks+"/"+total+"  •  "+(medal==1 ? "Bronze":medal==2 ? "Silver":"Gold")+" Required  •  Finales "+finales+"/3"; } }
@@ -68,6 +68,7 @@ namespace BallisticNGArchipelago {
   }
   private void Open() {
    if(!Allowed()) return;
+   AssistSettingsPanel controls=GetComponent<AssistSettingsPanel>();if(controls!=null)controls.Close();
    ConnectionPanel panel=GetComponent<ConnectionPanel>();if(panel!=null) panel.Hide();
    visible=true;pendingHint="";priorNavigation=NgMenuInput.NavigationDisabled;NgMenuInput.DisableNavigation();
    NgMenuInput.OverlayCount++;heldNavigation=true;
@@ -111,9 +112,10 @@ namespace BallisticNGArchipelago {
     rowStyle=new GUIStyle(wrap);rowStyle.padding=new RectOffset(6,6,4,4);
     titleStyle=new GUIStyle(wrap);titleStyle.fontSize=20;titleStyle.fontStyle=FontStyle.Bold;
    }
-   Matrix4x4 oldMatrix=GUI.matrix;int depth=GUI.depth;
-   try { GUI.matrix=Matrix4x4.Scale(new Vector3(scale,scale,1f));GUI.depth=-1100;window=GUI.Window(215919,window,Draw,"Chat, Hints & Log — F3 to close"); }
-   finally { GUI.matrix=oldMatrix;GUI.depth=depth; }
+   if(windowStyle==null)windowStyle=PanelStyles.OpaqueWindow();
+   Matrix4x4 oldMatrix=GUI.matrix;int depth=GUI.depth;Color color=GUI.color,background=GUI.backgroundColor,content=GUI.contentColor;
+   try { GUI.matrix=Matrix4x4.Scale(new Vector3(scale,scale,1f));GUI.depth=-1100;GUI.color=GUI.backgroundColor=GUI.contentColor=Color.white;window=GUI.Window(215919,window,Draw,"Chat, Hints & Log — F3 to close",windowStyle); }
+   finally { GUI.matrix=oldMatrix;GUI.depth=depth;GUI.color=color;GUI.backgroundColor=background;GUI.contentColor=content; }
   }
   private void Draw(int id) {
    GUILayout.BeginHorizontal();GUILayout.Label((Ready ? "Multiworld Linked • ":"Disconnected • ")+slot,titleStyle);if(GUILayout.Button("Close",GUILayout.Width(80))) Close();GUILayout.EndHorizontal();

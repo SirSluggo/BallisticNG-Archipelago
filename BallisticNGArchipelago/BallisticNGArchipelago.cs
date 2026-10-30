@@ -70,11 +70,124 @@ namespace BallisticNGArchipelago {
   private readonly CampaignSummary campaignSummary=new CampaignSummary();
   private bool summaryErrorReported;
   private int requiredMedal=3,debugMedal=3;
-  private bool barrelRolls;
+  private bool barrelRolls,passesEnabled,passesFinales,passesSurvival,consumablesBroken;
+  private ConsumableLedger consumables;
+  private readonly ConsumableBindings consumableBindings=new ConsumableBindings();
+  private ShipController assistTarget;
+  private readonly AssistAudio assistAudio=new AssistAudio();
+  private AssistSettingsPanel assistSettings;
+  private bool usePassRequested;
+  private void ConsumableNotice(string text) { Log("consumable",text); }
+  public void DrawConsumableSettings() { consumableBindings.DrawSettings(); }
+  private void RefreshConsumables() {
+   if(!universalMilestones || consumablesBroken)return;
+   try {
+    if(consumables==null)consumables=new ConsumableLedger(saveProfile.ConsumableFile(),saveProfile.BootKey);
+    string[] rows=ReadShared(RuntimeFiles.File(directory,"consumables-"+session+".txt")).Replace("\r","").TrimEnd('\n').Split('\n');int count;
+    if(rows.Length!=3 || rows[0]!=session || rows[1]!=Catalog.Digest || !int.TryParse(rows[2],out count))throw new IOException("Assist inventory is invalid");
+    consumables.SetDelivered(count);
+   } catch(Exception ex) { consumablesBroken=true;StopAssist();ConsumableNotice("Consumables disabled: "+ex.Message); }
+  }
+  private void RecordPlatinum(NgAward award,EventSpec e) {
+   if(!universalMilestones || !passesEnabled || consumables==null || consumablesBroken || award!=NgAward.Platinum || debugEventForced || consumables.Tainted(e.Key))return;
+   try { if(consumables.Reward(e.Key)) { itemToasts.LocalReward("Golden Race Pass","Platinum reward");Log("pass_earned",e.Key); } }
+   catch(Exception ex) { consumablesBroken=true;ConsumableNotice("Pass reward could not be saved: "+ex.Message); }
+  }
+  private void StopAssist(bool announce=true) {
+   bool owned=assistTarget!=null;
+   if(assistTarget!=null && assistTarget.AutopilotOnTimer && assistTarget.AutopilotTimer<=8f) {
+    assistTarget.AutopilotActivated=false;assistTarget.AutopilotOnTimer=false;assistTarget.AutopilotTimer=0f;
+   }
+   assistTarget=null;assistAudio.Stop(announce && owned);
+  }
+  private void UpdateConsumables() {
+   assistAudio.Update();
+   bool panel=(hostPanel!=null && hostPanel.Visible) || (assistSettings!=null && assistSettings.Visible);
+   int request=consumableBindings.Poll(assistSettings!=null && assistSettings.Visible);
+   if(usePassRequested)request=1;usePassRequested=false;
+   if(panel)request=-1;
+   if(assistTarget!=null && (assistTarget!=Ships.PlayerOneShip || assistTarget.Eliminated || assistTarget.FinishedEvent || NgSceneManager.GetLoadedScene()=="Menu" || !active || !valid))StopAssist();
+   if(assistTarget!=null && !assistTarget.AutopilotActivated)StopAssist();
+   else if(assistTarget!=null && !assistTarget.AutopilotOnTimer)StopAssist(false);
+   if(request<0 || (ChatPanel.Instance!=null && ChatPanel.Instance.Visible) || consumables==null || consumablesBroken || !universalMilestones)return;
+   if(!CanCompleteRound() || !CurrentSessionValid() || NgGameState.IsPaused || Race.AllShipsRestrained || Ships.PlayerOneShip.ShipRestrained)return;
+   try {
+    if(request==0) {
+     if(raceEvent.Mode=="Time Trial" || raceEvent.Mode=="Survival") { ConsumableNotice("Autopilot Assist is unavailable in Time Trial and Survival.");return; }
+     ShipController player=Ships.PlayerOneShip;
+     if(player.AutopilotActivated || assistTarget!=null || (TrapLab.Instance!=null && TrapLab.Instance.BackseatActive)) { ConsumableNotice("Wait for the active autopilot to finish.");return; }
+     if(!consumables.SpendAssist()) { ConsumableNotice("No Autopilot Assists remaining.");return; }
+     assistTarget=player;player.AutopilotActivated=true;player.AutopilotOnTimer=true;player.AutopilotTimer=8f;assistAudio.Start();
+     ConsumableNotice("Autopilot Assist active — 8 seconds.");
+    } else {
+     if(!passesEnabled || (!passesFinales && Catalog.RequiredFinale(raceEvent.Key)!=null) || (!passesSurvival && raceEvent.Mode=="Survival")) { ConsumableNotice("Golden Race Passes are disabled for this event.");return; }
+     if(raceEvent.Mode=="Team Race" && (Ships.GetTeamForShip(Ships.PlayerOneShip)==null || Ships.Teams.Count<2 || Ships.Teams.Count*2!=Ships.Loaded.Count))return;
+     if(raceEvent.Mode=="Survival" && (NgModes.GmSurvivalBackend.Instance==null || NgModes.GmSurvivalBackend.Instance.ship!=Ships.PlayerOneShip || NgModes.GmSurvivalBackend.Instance.HandledDeath || MedalRules.Threshold(NgCampaign.CurrentEvent.EventProgress,3)<0f))return;
+     if(raceEvent.Mode=="Upsurge" && !(RaceManager.CurrentGamemode is NgModes.GmUpsurge))return;
+     bool survivor=IsSurvivorMode() || raceEvent.Mode=="Survival";
+     if(!survivor && !GoldenPassResults.Supported(raceEvent.Mode,RaceManager.CurrentGamemode)) { ConsumableNotice("This game version does not expose the required completion API.");return; }
+     if(raceEvent.Mode=="Time Trial" && NgCampaign.CurrentEvent.EventProgress.GoldValue<=0f)return;
+     if(!consumables.SpendPass(raceEvent.Key)) { ConsumableNotice("No Golden Race Passes remaining.");return; }
+     StopAssist();CompleteGoldenPass();
+     ConsumableNotice(NgTournament.Enabled ? "Golden Race Pass used for this tournament round.":"Golden Race Pass used.");
+    }
+   } catch(Exception ex) { consumablesBroken=true;StopAssist();ConsumableNotice("Consumable action failed; preserve the ledger: "+ex.Message); }
+  }
+  private void CompleteGoldenPass() {
+   debugUsedRound=true;debugEventForced=true;debugEventKey=raceEvent.Key;
+   RaceManager.Instance.LeaderboardsDisabled=true;
+   ShipController player=Ships.PlayerOneShip;
+   Log("golden_pass_used",raceEvent.Key+" round="+NgTournament.CurrentTrackIndex+" source=button");
+   if(raceEvent.Mode=="Survival") {
+    var backend=NgModes.GmSurvivalBackend.Instance;
+    backend.zone=Math.Max(backend.zone,Mathf.CeilToInt(NgCampaign.CurrentEvent.EventProgress.GoldValue*NgCampaign.DifficultyMultiplier));
+    player.Eliminate(true);return;
+   }
+   if(IsSurvivorMode()) {
+    foreach(ShipController ship in new List<ShipController>(Ships.Loaded))
+     if(ship!=null && ship!=player && !ship.Eliminated && ship.ShieldIntegrity>=0f)ship.Eliminate(true);
+    return;
+   }
+   if(raceEvent.Mode=="Team Race") {
+    NgModes.RaceTeam winner=Ships.GetTeamForShip(player);
+    foreach(NgModes.RaceTeam team in Ships.Teams)team.Score=team==winner ? 1000f:0f;
+   }
+   float goldTime=NgCampaign.CurrentEvent.EventProgress.GoldValue*NgCampaign.DifficultyMultiplier-.1f;
+   GoldenPassResults.Complete(raceEvent.Mode,RaceManager.CurrentGamemode,player,Ships.Loaded,goldTime);
+  }
+  private GUIStyle inventoryStyle,passButtonStyle;
+  private void DrawConsumableHud() {
+   if(!active || !valid || !universalMilestones || consumables==null || NgSceneManager.GetLoadedScene()=="Menu")return;
+   if(inventoryStyle==null) {
+    inventoryStyle=new GUIStyle(GUI.skin.label);inventoryStyle.fontSize=11;inventoryStyle.normal.textColor=new Color(.8f,.83f,.87f,.7f);
+    passButtonStyle=new GUIStyle(GUI.skin.button);passButtonStyle.fontSize=11;passButtonStyle.normal.textColor=new Color(.8f,.83f,.87f,.8f);
+   }
+   float scale=Mathf.Clamp(Screen.height/1080f,.75f,2f);Matrix4x4 before=GUI.matrix;Color color=GUI.color;bool enabled=GUI.enabled;
+   try {
+    GUI.matrix=Matrix4x4.Scale(new Vector3(scale,scale,1f));
+    float y=Screen.height/scale-40;
+    string assistText="Assist "+consumables.Assists;
+    if(assistTarget!=null && assistTarget.AutopilotActivated && assistTarget.AutopilotOnTimer)
+     assistText+=" · "+Mathf.CeilToInt(Mathf.Max(0f,assistTarget.AutopilotTimer))+"s";
+    GUI.Label(new Rect(16,y,125,23),assistText,inventoryStyle);
+    if(passesEnabled) {
+     Rect button=new Rect(148,y,82,23);
+     if(consumables.Passes>0) {
+      ShipController player=Ships.PlayerOneShip;
+      GUI.enabled=enabled && !consumablesBroken && !blocked && raceEvent!=null && raceSession==session && !finished &&
+       Race.HasCountdownFinished && !NgGameState.IsPaused && player!=null && !player.Eliminated && !player.FinishedEvent &&
+       (passesFinales || Catalog.RequiredFinale(raceEvent.Key)==null) && (passesSurvival || raceEvent.Mode!="Survival") &&
+       (ChatPanel.Instance==null || !ChatPanel.Instance.Visible) && (assistSettings==null || !assistSettings.Visible);
+      GUI.color=new Color(1f,1f,1f,.7f);
+      if(GUI.Button(button,"Pass "+consumables.Passes,passButtonStyle))usePassRequested=true;
+     } else GUI.Label(button,"Pass 0",inventoryStyle);
+    }
+   } finally { GUI.matrix=before;GUI.color=color;GUI.enabled=enabled; }
+  }
   private int aiPreset;
   private readonly AiPresetRules aiRules=new AiPresetRules();
   private readonly BarrelRollRules barrelRules=new BarrelRollRules();
-  private bool survivalMilestones,survivorAwardCaptured;
+  private bool survivalMilestones,survivorAwardCaptured,universalMilestones;
   private NgAward survivorAward;
   private readonly HashSet<string> attemptChecks=new HashSet<string>();
   private int Required(EventSpec e) { return Catalog.RequiredFinale(e.Key)!=null ? Math.Max(3,requiredMedal):requiredMedal; }
@@ -90,6 +203,16 @@ namespace BallisticNGArchipelago {
    File.AppendAllText(RuntimeFiles.File(directory,"checks-"+raceSession+".txt"),key+Environment.NewLine);
    attemptChecks.Add(key);
    Log("check_queued",key+" debug_forced="+debugEventForced);
+  }
+  private void QueueAward(NgAward award,EventSpec e) {
+   RecordPlatinum(award,e);
+   if(universalMilestones) {
+    for(int tier=1;tier<=3;tier++) if((int)award>=tier) QueueCheck(MedalRules.Milestone(e.Key,tier));
+   } else {
+    if(Meets(award,e)) QueueCheck(e.Key);
+    if(survivalMilestones && e.Mode=="Survival") for(int tier=1;tier<=3;tier++)
+     if(tier!=requiredMedal && (int)award>=tier) QueueCheck(MedalRules.Milestone(e.Key,tier));
+   }
   }
   private bool CurrentSessionValid() {
    if(!active || !valid || !Live() || raceSession==null || raceSession!=session || saveProfile==null) return false;
@@ -198,13 +321,24 @@ namespace BallisticNGArchipelago {
    string expected=spec.Mode=="Time Trial" ? "NgModes.GmTimeTrial" : (spec.Mode=="Knockout" ? "NgModes.GmKnockout" : (spec.Mode=="Survival" ? "NgModes.GmSurvival" : "NgModes.GmRace"));
    return RaceManager.CurrentGamemode.GetType().FullName==expected;
   }
-  private bool CanForceWin() {
+  private bool CurrentRoundMatches() {
+   if(raceEvent==null)return false;
+   string[] tracks=raceEvent.Levels.Split('|');
+   if(tracks.Length==1)return !NgTournament.Enabled && PlayerTrackSelection.GetDesiredTrackScene()==tracks[0];
+   return NgTournament.Enabled && NgTournament.Tracks!=null && NgTournament.Tracks.Count==tracks.Length &&
+    NgTournament.CurrentTrackIndex>=0 && NgTournament.CurrentTrackIndex<tracks.Length &&
+    PlayerTrackSelection.GetDesiredTrackScene()==tracks[NgTournament.CurrentTrackIndex];
+  }
+  private bool CanForceWin() { return DebugEnabled() && CanCompleteRound(); }
+  private bool CanCompleteRound() {
    ShipController player=Ships.PlayerOneShip;
-   return DebugEnabled() && active && valid && Live() && !blocked && !debugUsedRound && !finished &&
+   return NgCampaign.Enabled && active && valid && Live() && !blocked && !debugUsedRound && !finished &&
     raceSession!=null && raceSession==session && raceEvent!=null && EventAllowed(raceEvent) && SelectedShipAllowed() &&
     NgNetworkBase.CurrentNetwork==null && !NgSettings.Gameplay.SplitscreenEnabled &&
-    Race.HasCountdownFinished && player!=null && !player.Eliminated && !player.FinishedEvent &&
-    ModeMatches(raceEvent) &&
+    Race.HasCountdownFinished && player!=null && !player.Eliminated && !player.FinishedEvent && !PlayerTrackSelection.UsingCustomTrack &&
+    ShipRules.Allowed(player.TargetShipData,PlayerShipSelection.PlayerOne.VariantIndex,access) &&
+    (ShipRules.Required(raceEvent.Key)==null || player.TargetShipData.Ship.ToString()==ShipRules.Required(raceEvent.Key)) &&
+    CurrentRoundMatches() && ModeMatches(raceEvent) &&
     Matches(raceEvent,NgCampaign.CurrentList,NgCampaign.CurrentEvent);
   }
   private void ForceDebugWin(bool fail) {
@@ -221,7 +355,7 @@ namespace BallisticNGArchipelago {
    }
    debugUsedRound=true;debugEventForced=true;debugEventKey=raceEvent.Key;
    Cheats.DebuggingEnabled=true;
-   Log(fail ? "debug_forced_failure" : "debug_forced_win",raceEvent.Key+" round="+NgTournament.CurrentTrackIndex+" source=temporary_button");
+   Log(fail ? "debug_forced_failure":"debug_forced_win",raceEvent.Key+" round="+NgTournament.CurrentTrackIndex+" source=temporary_button");
    if(debugTeam!=null) {
     RaceManager.Instance.LeaderboardsDisabled=true;
     bool opponentFirst=fail;
@@ -266,6 +400,7 @@ namespace BallisticNGArchipelago {
   }
   public void Initialize(string path) {
    Instance=this; directory=path;
+   try { consumableBindings.Open(path); } catch(Exception ex) { Log("binding_error",ex.Message); }
    shipAccess.PreviewDiagnostic=delegate(string data) { Log("ship_preview",data); };
    try {
     if(File.Exists(Path.Combine(directory,"panel-settings.txt")) || File.Exists(Path.Combine(directory,"active-session.txt"))) throw new IOException("Close game and client, then run Organize-Data.cmd in the installed mod folder before using v0.36.");
@@ -279,13 +414,14 @@ namespace BallisticNGArchipelago {
     finally { Application.Quit(); }
     return;
    }
-   NgRaceEvents.OnPreShipsSpawned+=ResetRace;NgRaceEvents.OnShipExploded+=CaptureSurvivorAward;
+   NgRaceEvents.OnPreShipsSpawned+=ResetRace;NgRaceEvents.OnShipExploded+=CaptureSurvivorAward;NgRaceEvents.OnShipExploded+=CaptureTournamentElimination;
    NgRaceEvents.OnShipFinished+=Finish;
    NgRaceEvents.OnEventComplete+=Complete;
    NgRaceEvents.OnEventExit+=Exit;
    hostPanel=gameObject.AddComponent<ConnectionPanel>();hostPanel.Initialize(directory,saveProfile);
+   assistSettings=gameObject.AddComponent<AssistSettingsPanel>();
    gameObject.AddComponent<ChatPanel>().Initialize(directory);
-   Log("logger_started","version=0.36");
+   Log("logger_started","version=0.37");
   }
   private static string Clean(string s) { return (s??"").Replace("\t"," ").Replace("\r"," ").Replace("\n"," "); }
   private void Log(string kind,string data) {
@@ -336,7 +472,7 @@ namespace BallisticNGArchipelago {
   }
   private void ReadAccess() {
    string tokenPath=RuntimeFiles.File(directory,"active-session.txt");
-   if(!File.Exists(tokenPath) || !Live()) { active=false; session=null; Restore(); SetStatus("AP v0.36 "+saveProfile.Label+": disconnected"); return; }
+   if(!File.Exists(tokenPath) || !Live()) { active=false; session=null; Restore(); SetStatus("AP v0.37 "+saveProfile.Label+": disconnected"); return; }
    Guid token;
    if(!Guid.TryParse(ReadShared(tokenPath).Trim(),out token)) throw new Exception("Invalid session token");
    string current=token.ToString("N");
@@ -345,17 +481,22 @@ namespace BallisticNGArchipelago {
    string profilePath=RuntimeFiles.File(directory,"profile-"+current+".txt");
    if(!File.Exists(profilePath) || !saveProfile.Matches(ReadShared(profilePath).Trim())) {
     active=false;valid=false;session=null;Restore();
-    SetStatus("AP v0.36 "+saveProfile.Label+": AP inactive. F2 -> Restart into connected AP save.");
+    SetStatus("AP v0.37 "+saveProfile.Label+": AP inactive. F2 -> Restart into connected AP save.");
     return;
    }
    if(session!=current) { Restore(); valid=false; }
    string[] rules=ReadShared(RuntimeFiles.File(directory,"rules-"+current+".txt")).Replace("\r","").TrimEnd('\n').Split('\n');
    int medal,preset;
-   if(rules.Length!=6 || rules[0]!=current || rules[1]!=Catalog.Digest || !int.TryParse(rules[2],out medal) || medal<1 || medal>4 || (rules[3]!="0" && rules[3]!="1") || (rules[4]!="0" && rules[4]!="1") || !int.TryParse(rules[5],out preset) || preset<0 || preset>3) throw new Exception("Campaign rules mismatch");
+   if((rules.Length!=6 && rules.Length!=10) || (rules.Length==10 && (rules[6]!="universal-v1")) || rules[0]!=current || rules[1]!=Catalog.Digest || !int.TryParse(rules[2],out medal) || medal<1 || medal>4 || (rules[3]!="0" && rules[3]!="1") || (rules[4]!="0" && rules[4]!="1") || !int.TryParse(rules[5],out preset) || preset<0 || preset>3) throw new Exception("Campaign rules mismatch");
+   universalMilestones=rules.Length==10;
+   passesEnabled=universalMilestones && rules[7]=="1";passesFinales=universalMilestones && rules[8]=="1";passesSurvival=universalMilestones && rules[9]=="1";
+   if(universalMilestones)for(int i=7;i<10;i++)if(rules[i]!="0" && rules[i]!="1")throw new Exception("Pass rules mismatch");
+   if(universalMilestones && medal>3) throw new Exception("Universal medal target mismatch");
    requiredMedal=medal;survivalMilestones=rules[3]=="1";barrelRolls=rules[4]=="1";aiPreset=preset;
    session=current; access.Clear(); access.Add("Breeze");
    for(int i=2;i<lines.Length;i++) foreach(string campaign in Catalog.AccessNames) if(lines[i]==campaign) access.Add(campaign);
    active=true;
+   RefreshConsumables();
    NgCampaignManager manager=NgCampaignManager.Instance;
    if(manager==null || manager.Campaign==null) return; // Existing validated state survives race scenes.
    if(!Validate(manager.Campaign)) { valid=false; Restore(); SetStatus("AP: catalog mismatch; checks disabled"); return; }
@@ -380,7 +521,7 @@ namespace BallisticNGArchipelago {
     list.PointsToUnlock=access.Contains(name)?0:int.MaxValue;
     for(int i=0;i<list.EventGroups.Length;i++) list.EventGroups[i].PointsToUnlock=access.Contains(name)?0:int.MaxValue;
    }
-   SetStatus("AP v0.36 "+saveProfile.Label+" OPEN: "+string.Join(", ",Array.FindAll(Catalog.Campaigns,delegate(string n) { return access.Contains(n); })));
+   SetStatus("AP v0.37 "+saveProfile.Label+" OPEN: "+string.Join(", ",Array.FindAll(Catalog.Campaigns,delegate(string n) { return access.Contains(n); })));
   }
   private void SetStatus(string value) { if(status!=value) { status=value; Log("access_state",value); } }
   private bool EventAllowed(EventSpec spec) {
@@ -507,6 +648,28 @@ namespace BallisticNGArchipelago {
   private bool CanForceFailure() {
    return raceEvent!=null && (raceEvent.Mode=="Time Trial" || IsSurvivorMode() || raceEvent.Mode=="Survival" || raceEvent.Mode=="Eliminator" || raceEvent.Mode=="Team Race" || raceEvent.Mode=="Upsurge");
   }
+  private bool FinalTournamentRound() {
+   return TournamentResultRules.FinalRace(raceEvent,NgTournament.Enabled,
+    NgTournament.Tracks==null ? 0:NgTournament.Tracks.Count,NgTournament.CurrentTrackIndex,
+    Ships.Loaded==null ? 0:Ships.Loaded.Count,NgTournament.Ships==null ? 0:NgTournament.Ships.Count,
+    PlayerTrackSelection.GetDesiredTrackScene());
+  }
+  private void CaptureTournamentElimination(ShipController player) {
+   if(player==null || player!=Ships.PlayerOneShip || !active || !valid || blocked || queued ||
+    raceSession==null || raceSession!=session || !FinalTournamentRound())return;
+   StartCoroutine(TournamentEliminationResult(player,generation));
+  }
+  private IEnumerator TournamentEliminationResult(ShipController player,int g) {
+   // GmRace calculates and freezes final overall standings later in this explosion event.
+   yield return null;
+   if(g!=generation || queued || blocked || player==null || player!=Ships.PlayerOneShip ||
+    (!player.Eliminated && player.ShieldIntegrity>=0f) || !FinalTournamentRound())yield break;
+   try {
+    if(!CurrentSessionValid() || !ModeMatches(raceEvent))yield break;
+    finished=true;Log("tournament_elimination_result",raceEvent.Key+" overall_place="+NgTournament.CalculatePlace(player));
+    Complete();
+   } catch(System.Exception ex) { Log("tournament_elimination_error",ex.ToString()); }
+  }
   private void CaptureSurvivorAward(ShipController player) {
    try {
    if(!IsSurvivorMode() || player==null || player!=Ships.PlayerOneShip || survivorAwardCaptured ||
@@ -528,9 +691,7 @@ namespace BallisticNGArchipelago {
     !ShipRules.Allowed(player.TargetShipData,PlayerShipSelection.PlayerOne.VariantIndex,access) ||
     player.TargetShipData.Ship.ToString()!=ShipRules.Required(raceEvent.Key)) return;
    NgAward award=MedalRules.Zones(NgCampaign.CurrentEvent.EventProgress,NgCampaign.DifficultyMultiplier,backend.zone);
-   if(Meets(award,raceEvent)) QueueCheck(raceEvent.Key);
-   if(survivalMilestones) for(int tier=1;tier<=3;tier++)
-    if(tier!=requiredMedal && (int)award>=tier) QueueCheck(MedalRules.Milestone(raceEvent.Key,tier));
+   QueueAward(award,raceEvent);
    // Do not finish, eliminate or alter the player's run when checks are earned.
    if(backend.HandledDeath && player.Eliminated && !queued) { finished=true;Complete(); }
   }
@@ -551,7 +712,20 @@ namespace BallisticNGArchipelago {
    if(mode!=null && mode.SessionFinished && player!=null && player.FinishedEvent &&
     mode.Standings!=null && mode.Standings.Contains(player)) { finished=true;Complete(); }
   }
+  private void UpdateBarrelRolls() {
+   // Native race setup can finish after OnPreShipsSpawned. Keep the event-local
+   // setting applied once setup is complete, without touching custom-race preferences.
+   bool enabledForRace=barrelRolls && active && valid && !blocked && raceEvent!=null && raceSession!=null && raceSession==session &&
+    NgCampaign.Enabled && NgNetworkBase.CurrentNetwork==null && !NgSettings.Gameplay.SplitscreenEnabled &&
+    NgSceneManager.GetLoadedScene()!="Menu" && RaceManager.FinishedInit;
+   if(!enabledForRace) { if(barrelRules.Applied)barrelRules.Restore();return; }
+   if(!barrelRules.Applied) {
+    if(barrelRules.Apply())Log("barrel_rolls","enabled after race setup event="+raceEvent.Key);
+   } else barrelRules.Maintain();
+  }
   private void Update() {
+   UpdateBarrelRolls();
+   try { UpdateConsumables(); } catch(Exception ex) { StopAssist();Log("consumable_input_error",ex.Message); }
    if(NgSceneManager.GetLoadedScene()=="Menu") { if(aiRules.Applied) aiRules.Restore();if(barrelRules.Applied) barrelRules.Restore(); }
    if((ChatPanel.Instance==null || !ChatPanel.Instance.Visible) && Input.GetKeyDown(KeyCode.F8) && CanForceWin()) { debugMedal=Math.Max(3,requiredMedal);debugPending=true;debugFailPending=false; }
    if((ChatPanel.Instance==null || !ChatPanel.Instance.Visible) && Input.GetKeyDown(KeyCode.F9) && CanForceWin() && CanForceFailure()) { debugPending=true;debugFailPending=true; }
@@ -593,16 +767,17 @@ namespace BallisticNGArchipelago {
    if(bannerStyle==null) { bannerStyle=new GUIStyle(GUI.skin.box);bannerStyle.fontSize=16;bannerStyle.alignment=TextAnchor.MiddleLeft;bannerStyle.padding=new RectOffset(14,14,7,7);bannerStyle.richText=false; }
    string text=status;
    ChatPanel chat=ChatPanel.Instance;
-   if(active && valid && chat!=null && chat.Ready) text="Multiworld Linked • "+chat.Slot+"\n"+chat.Progress+"  •  AI: "+AiPresetRules.Name(aiPreset)+"    F2: Connection  |  F3: Chat, Hints & Log";
-   else if(status.IndexOf("disconnected",StringComparison.OrdinalIgnoreCase)>=0) text=(saveProfile!=null && saveProfile.BootKey=="normal" ? "Normal Save":"Disconnected • AP checks paused")+"\nF2: Connection  |  F3: Chat, Hints & Log";
+   if(active && valid && chat!=null && chat.Ready) text="Multiworld Linked • "+chat.Slot+"\n"+chat.Progress+"  •  AI: "+AiPresetRules.Name(aiPreset)+"    F2: Connection  |  F3: Chat, Hints & Log  |  F4: Assist controls";
+   else if(status.IndexOf("disconnected",StringComparison.OrdinalIgnoreCase)>=0) text=(saveProfile!=null && saveProfile.BootKey=="normal" ? "Normal Save":"Disconnected • AP checks paused")+"\nF2: Connection  |  F3: Chat, Hints & Log  |  F4: Assist controls";
    else if(status.IndexOf("AP inactive",StringComparison.OrdinalIgnoreCase)>=0) text="AP save switch required\nF2 → Restart into connected AP save";
-   else text+="\nF2: Connection  |  F3: Chat, Hints & Log";
+   else text+="\nF2: Connection  |  F3: Chat, Hints & Log  |  F4: Assist controls";
    float scale=Mathf.Clamp(Screen.height/1080f,.75f,2f);Matrix4x4 matrix=GUI.matrix;
    try { GUI.matrix=Matrix4x4.Scale(new Vector3(scale,scale,1f));GUI.Box(new Rect(15,15,Mathf.Min(1000f,Screen.width/scale-30f),68f),text,bannerStyle); }
    finally { GUI.matrix=matrix; }
   }
   private void OnGUI() {
    itemToasts.Draw();
+   DrawConsumableHud();
    DrawBanner();
    if(ChatPanel.Instance!=null && ChatPanel.Instance.Visible) return;
    if(!DebugEnabled() || raceEvent==null || NgSceneManager.GetLoadedScene()=="Menu") return;
@@ -627,6 +802,7 @@ namespace BallisticNGArchipelago {
    return null;
   }
   private void ResetRace() {
+   StopAssist();
    aiRules.Restore();barrelRules.Restore();
    generation++;finished=false;queued=false;attemptChecks.Clear();survivorAwardCaptured=false;survivorAward=NgAward.None;blocked=Denied();raceSession=active && valid ? session:null;raceEvent=Identify();
    if(barrelRolls && raceSession!=null && raceEvent!=null && !blocked && Live() && EventAllowed(raceEvent) && NgNetworkBase.CurrentNetwork==null) {
@@ -638,11 +814,15 @@ namespace BallisticNGArchipelago {
    }
    teamResultCaptured=false;teamFinishPlace=0;teamFinishCount=0;teamFinishScore=0f;
    debugUsedRound=false;debugPending=false;debugFailPending=false;
+   if(consumables!=null && !consumablesBroken && raceEvent!=null && raceSession!=null) {
+    try { consumables.NewAttempt(raceEvent.Key,!NgTournament.Enabled || NgTournament.CurrentTrackIndex==0); }
+    catch(Exception ex) { consumablesBroken=true;ConsumableNotice("Could not save attempt state: "+ex.Message); }
+   }
    if(raceEvent==null || raceEvent.Key!=debugEventKey || !NgTournament.Enabled || NgTournament.CurrentTrackIndex==0) {
     debugEventForced=false;debugEventKey=raceEvent==null ? null:raceEvent.Key;
    }
   }
-  private void Exit() { aiRules.Restore();barrelRules.Restore();generation++;finished=false;queued=false;teamResultCaptured=false; }
+  private void Exit() { StopAssist(); aiRules.Restore();barrelRules.Restore();generation++;finished=false;queued=false;teamResultCaptured=false; }
   private void Finish(ShipController ship) {
    if(ship==null || ship!=Ships.PlayerOneShip || blocked) return;
    finished=true;Log("player_finished","track="+PlayerTrackSelection.GetDesiredTrackScene()+" place="+ship.FinalPlace);
@@ -667,7 +847,7 @@ namespace BallisticNGArchipelago {
    try {
     ShipController player=Ships.PlayerOneShip;
     if(!active || !valid || !Live() || raceSession==null || raceSession!=session || raceEvent==null ||
-     !finished || player==null || (player.Eliminated && !IsSurvivorMode() && raceEvent.Mode!="Survival" && raceEvent.Mode!="Eliminator" && raceEvent.Mode!="Upsurge" && raceEvent.Mode!="Team Race") || NgNetworkBase.CurrentNetwork!=null ||
+     !finished || player==null || (player.Eliminated && !FinalTournamentRound() && !IsSurvivorMode() && raceEvent.Mode!="Survival" && raceEvent.Mode!="Eliminator" && raceEvent.Mode!="Upsurge" && raceEvent.Mode!="Team Race") || NgNetworkBase.CurrentNetwork!=null ||
      NgSettings.Gameplay.SplitscreenEnabled ||
      PlayerTrackSelection.UsingCustomTrack || RaceManager.CurrentGamemode==null ||
      !ModeMatches(raceEvent) || !EventAllowed(raceEvent) || !SelectedShipAllowed() ||
@@ -679,12 +859,12 @@ namespace BallisticNGArchipelago {
     if(saveProfile==null || !saveProfile.Matches(ReadShared(RuntimeFiles.File(directory,"profile-"+raceSession+".txt")).Trim())) yield break;
     string[] levels=raceEvent.Levels.Split('|');
     int place=player.FinalPlace;
-    bool success=false;
+    bool success=false;NgAward attemptAward=NgAward.None;
     if(raceEvent.Mode=="Team Race") {
      if(NgTournament.Enabled || levels.Length!=1 || PlayerTrackSelection.GetDesiredTrackScene()!=levels[0]) yield break;
      if(!teamResultCaptured || !player.FinishedEvent || teamFinishCount!=Ships.Teams.Count ||
       teamFinishCount*2!=Ships.Loaded.Count) yield break;
-     place=teamFinishPlace;success=Meets(MedalRules.Position(place),raceEvent);
+     place=teamFinishPlace;attemptAward=MedalRules.Position(place);success=Meets(attemptAward,raceEvent);
      Log("team_race_result",raceEvent.Key+" current_run_team_place="+place+" individual_place="+player.FinalPlace+
       " team_score_at_finish="+teamFinishScore.ToString(System.Globalization.CultureInfo.InvariantCulture)+
       " saved_award="+NgCampaign.CurrentEvent.EventProgress.CurrentAward+" debug_forced="+debugEventForced);
@@ -693,7 +873,7 @@ namespace BallisticNGArchipelago {
      NgModes.GmUpsurge mode=RaceManager.CurrentGamemode as NgModes.GmUpsurge;
      if(mode==null || !mode.SessionFinished || !player.FinishedEvent || mode.Standings==null ||
       mode.Standings.Count!=Ships.Loaded.Count || !mode.Standings.Contains(player)) yield break;
-     place=mode.Standings.IndexOf(player)+1;success=Meets(MedalRules.Position(place),raceEvent);
+     place=mode.Standings.IndexOf(player)+1;attemptAward=MedalRules.Position(place);success=Meets(attemptAward,raceEvent);
      Log("upsurge_result",raceEvent.Key+" current_run_place="+place+" score="+
       player.Score.ToString(System.Globalization.CultureInfo.InvariantCulture)+" saved_award="+
       NgCampaign.CurrentEvent.EventProgress.CurrentAward+" debug_forced="+debugEventForced);
@@ -703,7 +883,7 @@ namespace BallisticNGArchipelago {
      if(mode==null || !mode.SessionFinished || !player.FinishedEvent || mode.Standings==null ||
       mode.Standings.Count!=Ships.Loaded.Count || !mode.Standings.Contains(player)) yield break;
      place=mode.Standings.IndexOf(player)+1;
-     success=Meets(MedalRules.Position(place),raceEvent);
+     attemptAward=MedalRules.Position(place);success=Meets(attemptAward,raceEvent);
      Log("eliminator_result",raceEvent.Key+" current_run_place="+place+" score="+
       player.Score.ToString(System.Globalization.CultureInfo.InvariantCulture)+" saved_award="+
       NgCampaign.CurrentEvent.EventProgress.CurrentAward+" debug_forced="+debugEventForced);
@@ -715,7 +895,7 @@ namespace BallisticNGArchipelago {
      float multiplier=NgCampaign.DifficultyMultiplier;
      // Match the backend's current-run zone comparisons; never use saved CurrentAward.
      NgAward award=MedalRules.Zones(progress,multiplier,backend.zone);
-     success=Meets(award,raceEvent);
+     attemptAward=award;success=Meets(award,raceEvent);
      Log("survival_result",raceEvent.Key+" current_run_award="+award+" zones="+backend.zone+
       " saved_award="+progress.CurrentAward+" debug_forced="+debugEventForced);
     } else if(raceEvent.Mode=="Time Trial") {
@@ -724,23 +904,25 @@ namespace BallisticNGArchipelago {
      float multiplier=NgCampaign.DifficultyMultiplier;
      NgAward award=NgModes.Gamemode.CalculateAwardTime(player,progress.PlatinumValue*multiplier,
       progress.GoldValue*multiplier,progress.SilverValue*multiplier,progress.BronzeValue*multiplier);
-     success=Meets(award,raceEvent);
+     attemptAward=award;success=Meets(award,raceEvent);
      Log("time_trial_result",raceEvent.Key+" current_run_award="+award+" seconds="+
       player.TotalRaceTime.ToString(System.Globalization.CultureInfo.InvariantCulture)+" saved_award="+
       progress.CurrentAward+" debug_forced="+debugEventForced);
     } else if(IsSurvivorMode()) {
      if(NgTournament.Enabled || levels.Length!=1 || PlayerTrackSelection.GetDesiredTrackScene()!=levels[0]) yield break;
      NgAward award=player.FinishedEvent && !player.Eliminated && player.ShieldIntegrity>=0f ? MedalRules.Hard(NgAward.Gold):(survivorAwardCaptured ? survivorAward:NgAward.None);
-     success=Meets(award,raceEvent);
+     attemptAward=award;success=Meets(award,raceEvent);
      Log(SurvivorResultKind(),raceEvent.Key+" current_run_award="+award+" debug_forced="+debugEventForced);
     } else if(levels.Length>1) {
      if(!NgTournament.Enabled || NgTournament.Tracks==null || NgTournament.Tracks.Count!=levels.Length ||
       !NgTournament.FinalTrack || NgTournament.Ships==null || NgTournament.Ships.Count!=Ships.Loaded.Count ||
       PlayerTrackSelection.GetDesiredTrackScene()!=levels[levels.Length-1]) yield break;
      place=NgTournament.CalculatePlace(player);
+     Log("tournament_result",raceEvent.Key+" current_run_overall_place="+place+" eliminated="+player.Eliminated);
     } else if(NgTournament.Enabled || PlayerTrackSelection.GetDesiredTrackScene()!=levels[0]) yield break;
     Log("eligible_result",raceEvent.Key+" placement="+place+" debug_forced="+debugEventForced);
-    if(raceEvent.Mode=="Race") success=Meets(MedalRules.Position(place),raceEvent);
+    if(raceEvent.Mode=="Race") { attemptAward=MedalRules.Position(place);success=Meets(attemptAward,raceEvent); }
+    if(universalMilestones) { QueueAward(attemptAward,raceEvent);yield break; }
     if(!success) yield break;
     QueueCheck(raceEvent.Key);
     Log("medal_check",raceEvent.Key+" minimum="+(NgAward)Required(raceEvent)+" debug_forced="+debugEventForced);
@@ -749,9 +931,10 @@ namespace BallisticNGArchipelago {
    } catch(Exception ex) { Log("logger_error",ex.ToString()); }
   }
   private void OnDestroy() {
+   StopAssist();
    aiRules.Restore();barrelRules.Restore();
    mainMenuConnection.Dispose();
-   Restore(); NgRaceEvents.OnPreShipsSpawned-=ResetRace;NgRaceEvents.OnShipExploded-=CaptureSurvivorAward;NgRaceEvents.OnShipFinished-=Finish;
+   Restore(); NgRaceEvents.OnPreShipsSpawned-=ResetRace;NgRaceEvents.OnShipExploded-=CaptureSurvivorAward;NgRaceEvents.OnShipExploded-=CaptureTournamentElimination;NgRaceEvents.OnShipFinished-=Finish;
    NgRaceEvents.OnEventComplete-=Complete;NgRaceEvents.OnEventExit-=Exit;
    if(saveProfile!=null) saveProfile.Dispose();
    if(Instance==this) Instance=null;

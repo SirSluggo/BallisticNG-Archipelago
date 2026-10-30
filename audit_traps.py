@@ -20,9 +20,9 @@ def setup(players,seed,medal,enabled,chosen):
  for w in mw.worlds.values():w.generate_early()
  for w in mw.worlds.values():w.create_regions();w.create_items();w.set_rules()
  for w in mw.worlds.values():
-  pool=[x for x in mw.itempool if x.player==w.player];assert len(pool)==125
+  pool=[x for x in mw.itempool if x.player==w.player];assert len(pool)==303
   traps=[x for x in pool if x.name in trap_names];filler=[x for x in pool if x.name=='Pit Crew Encouragement']
-  assert len(traps)==(18 if enabled else 0) and len(filler)==(0 if enabled else 18)
+  assert len(traps)==(160 if enabled else 0) and len(filler)==(0 if enabled else 160)
   if enabled:
    expected={mod.M['trap_items'][keys[i]]['name'] for i in chosen};assert {x.name for x in traps}==expected
    assert all(x.classification==ItemClassification.trap and not x.advancement for x in traps)

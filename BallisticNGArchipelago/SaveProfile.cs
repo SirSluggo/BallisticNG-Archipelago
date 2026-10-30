@@ -75,6 +75,13 @@ namespace BallisticNGArchipelago {
   public bool Matches(string key) {
    return guard!=null && IsKey(key) && BootKey==key && ReadCurrent()=="normal" && ReadSelection()==key;
   }
+  public string ConsumableFile() {
+   if(!IsKey(BootKey)) throw new IOException("Consumables require an isolated AP save");
+   string slots=Path.Combine(isolatedRoot,"slots"),slot=Path.Combine(slots,BootKey);
+   Plain(isolatedRoot);Plain(slots);Plain(slot);
+   if(!Directory.Exists(slot)) throw new IOException("AP slot directory is missing");
+   string file=Path.Combine(slot,"consumables-v1.txt");Plain(file);Plain(file+".tmp");Plain(file+".bak");return file;
+  }
   public void Dispose() { if(guard!=null) { guard.Dispose();guard=null; } }
  }
 }

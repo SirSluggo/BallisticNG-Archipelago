@@ -11,6 +11,6 @@ assert w.options.ai_preset.value==2
 assert list(get_option_groups(m.BallisticNGWorld)['Game Options'])[:3]==['required_medal','ai_preset','barrel_rolls']
 for on in (0,1):
  w.options.barrel_rolls=type(w.options.barrel_rolls).from_any(on);data=w.fill_slot_data()
- assert data['barrel_rolls']==on and data['bridge_protocol']==30 and data['manifest_digest']==m.M['digest']
+ assert data['barrel_rolls']==on and data['bridge_protocol']==31 and data['manifest_digest']==m.M['digest']
 assert w.fill_slot_data()['ai_preset']==2
 print('Actual AP option classes: Barrel Rolls default ON; off/on slot data and template order verified.')

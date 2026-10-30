@@ -2,6 +2,7 @@ from runtime_files import route
 """Background bridge and post-exit isolated profile selection for the F2 panel. Windows only."""
 import asyncio
 import base64
+import ipaddress
 from contextlib import suppress
 import os
 from pathlib import Path
@@ -22,13 +23,31 @@ def connection_url(host,port):
     host=host.strip()
     if any(c.isspace() for c in host) or not host:raise ValueError('Invalid server')
     if not port.isascii() or not port.isdecimal() or not 1<=int(port)<=65535:raise ValueError('Invalid port')
-    raw=host if '://' in host else 'ws://'+host
+    explicit='://' in host
+    raw=host if explicit else 'wss://'+host
     parsed=urlsplit(raw)
     if parsed.scheme not in ('ws','wss') or not parsed.hostname or parsed.username or parsed.password or parsed.query or parsed.fragment or parsed.path not in ('','/'):
         raise ValueError('Use a server hostname or ws/wss hostname without a path')
     if parsed.port is not None:raise ValueError('Enter the port in the separate port field')
     hostname='['+parsed.hostname+']' if ':' in parsed.hostname else parsed.hostname
-    return parsed.scheme+'://'+hostname+':'+str(int(port))
+    scheme=parsed.scheme
+    if not explicit:
+        local=parsed.hostname.lower()=='localhost' or parsed.hostname.lower().endswith(('.localhost','.local')) or ('.' not in parsed.hostname and ':' not in parsed.hostname)
+        try:
+            address=ipaddress.ip_address(parsed.hostname)
+            local=address.is_loopback or address.is_private or address.is_link_local
+        except ValueError:pass
+        if local:scheme='ws'
+    return scheme+'://'+hostname+':'+str(int(port))
+
+
+def connection_diagnostic(url,ex):
+    # Never include exception messages, headers, packets, slots, or credentials.
+    scheme='wss' if urlsplit(url).scheme=='wss' else 'ws'
+    detail='Connection unavailable ('+type(ex).__name__+', '+scheme+').'
+    if type(ex).__name__=='InvalidMessage' and scheme=='ws':
+        detail+=' For a hosted room, try wss:// in the Server field.'
+    return detail
 
 
 def read_settings(stream):
@@ -115,6 +134,7 @@ async def run(mod,url,slot,password):
                         'Invalid Survival milestone option':'Invalid Survival setting in server slot data.'
                     }
                     known.update({'Wrong game/catalog: generate a fresh v0.31 BallisticNG seed.':'Seed/catalog mismatch. Use a compatible v0.24–v0.31 seed.', 'Invalid starting inventory; generate a fresh v0.31 seed.':'Starting inventory does not match this catalog.'})
+                    known.update({'Invalid universal location schema; generate a fresh seed.':'Unsupported universal medal schema. Generate a fresh v0.37 seed.', 'Stored location schema mismatch; use a fresh seed.':'This seed identity was already used with different checks. Generate a fresh seed.', 'Invalid Golden Race Pass settings':'Invalid Golden Race Pass settings in slot data.'})
                     detail=known.get(str(ex),'Validation failed (ValueError). Preserve bridge-state for diagnosis.')
                     if str(ex).startswith('Connection refused: '):
                         codes=str(ex)[len('Connection refused: '):].split(', ')
@@ -125,7 +145,9 @@ async def run(mod,url,slot,password):
                 except Exception as ex:
                     # Error messages from networking libraries may contain connection input.
                     # Only the exception class is published/logged.
-                    status('connecting','Connection unavailable ('+type(ex).__name__+'). Check fields, password and server; Disconnect to edit.')
+                    detail=connection_diagnostic(url,ex)
+                    print(detail+' Retrying in 5 seconds.',flush=True)
+                    status('connecting',detail+' Check fields, password and server; Disconnect to edit.')
                     await asyncio.sleep(5)
         network=asyncio.create_task(connect())
         absent_since=None

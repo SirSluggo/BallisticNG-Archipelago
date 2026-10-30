@@ -15,6 +15,7 @@ namespace BallisticNGArchipelago {
   public void Hide() { visible=false; }
   private SaveProfile profile;
   private bool visible;
+  public bool Visible { get { return visible; } }
   private float nextPoll;
   private Rect window;
   public void Initialize(string path,SaveProfile save) {
@@ -33,6 +34,7 @@ namespace BallisticNGArchipelago {
    if(Input.GetKeyDown(KeyCode.F2)) {
     if(NgGame.NgSceneManager.GetLoadedScene()=="Menu") {
      if(ChatPanel.Instance!=null) ChatPanel.Instance.Close();
+     AssistSettingsPanel controls=GetComponent<AssistSettingsPanel>();if(controls!=null)controls.Close();
      visible=!visible;guiScale=Mathf.Clamp(Screen.height/1080f,.75f,2f);
      window=new Rect(Math.Max(10,(Screen.width/guiScale-680)/2),45,680,Mathf.Min(850f,Screen.height/guiScale-65f));
     }
@@ -118,7 +120,7 @@ namespace BallisticNGArchipelago {
   }
   private void Draw(int id) {
    panelScroll=GUILayout.BeginScrollView(panelScroll);
-   GUILayout.Label("BallisticNG Archipelago v0.36.1 • F3: Chat, Hints & Log");
+   GUILayout.Label("BallisticNG Archipelago v0.37.4 • F3: Chat, Hints & Log");
    GUILayout.Label(profile==null ? "Save unavailable" : "Loaded: "+profile.Label);
    if(LoggerBehaviour.Instance!=null) GUILayout.Label(LoggerBehaviour.Instance.MedalSummary);
    GUILayout.Label("Server (hostname, ws:// or wss://; port goes below)");server=GUILayout.TextField(server,200);
@@ -132,6 +134,7 @@ namespace BallisticNGArchipelago {
    if(GUILayout.Button("Save fields")) { try { SaveSettings();message="Server, port and slot saved. Password is never saved."; } catch { message="Settings could not be saved."; } }
    GUILayout.EndHorizontal();
    GUILayout.Label(message,GUILayout.Height(55));
+
    GUILayout.Label("Your progress is saved separately for each Archipelago seed. Switch saves using the restart buttons below.",warningStyle);
    if(connectionState=="connected" && TrapLab.Instance!=null && TrapLab.Instance.PendingCount>0) GUILayout.Label("Traps queued: "+TrapLab.Instance.PendingCount+". Effects wait for racing.");
    GUILayout.BeginVertical(GUI.skin.box);

@@ -19,12 +19,11 @@ class RequiredMedal(Choice):
     track, speed, and ship access.
 
     Required Medal:
-    Choose the medal needed to send an event's main Archipelago check.
-    Earning that medal or better awards the check; a lower result does not.
-    Bronze is the easiest requirement; Gold is the most demanding.
-    This changes the required result, not the game's difficulty setting.
-    Survival always has separate Bronze, Silver and Gold checks. Checks above your
-    selected medal cannot contain progression, so higher medals are optional for goal.
+    Every supported event has Bronze, Silver, and Gold Archipelago checks.
+    A higher medal also awards any lower checks you have not earned.
+    Choose the highest medal that may hold progression for any player.
+    Checks above this target are optional rewards and cannot hold progression.
+    This changes required results, not the game's difficulty setting.
     The three AGL 2159 Finale tournaments in Zen Zeus always require 1st place
     overall, regardless of this setting."""
     display_name='Required Medal'
@@ -53,8 +52,24 @@ class BarrelRolls(DefaultOnToggle):
     landing with a short boost. Enabled by default for fun; never required to finish."""
     display_name='Barrel Rolls'
 
+class GoldenRacePasses(DefaultOnToggle):
+    """Earn one local Golden Race Pass for each event's first Platinum in this seed.
+    Spend a pass after countdown to clear one event or the current tournament round.
+    Passes are not shuffled items. Assisted clears cannot earn a Platinum pass."""
+    display_name='Golden Race Passes'
+
+class PassesInFinales(Toggle):
+    """Allow Golden Race Passes in the three finale tournaments.
+    Each pass clears only the current round. Disabled by default."""
+    display_name='Passes in Finales'
+
+class PassesInSurvival(Toggle):
+    """Allow Golden Race Passes to clear a Survival event at Gold and end the run.
+    Disabled by default."""
+    display_name='Passes in Survival'
+
 class Traps(Toggle):
-    """Replace the 18 blank Pit Crew Encouragement items with random traps.
+    """Replace every Pit Crew Encouragement item with a random trap.
     Choose which traps can appear below. Each enabled trap appears at least
     once; the remaining copies are random. Turning traps off keeps the blank
     items, which do nothing. Enable at least one trap type when traps are on.
@@ -104,6 +119,9 @@ class BallisticNGOptions(PerGameCommonOptions):
     required_medal: RequiredMedal
     ai_preset: AiPreset
     barrel_rolls: BarrelRolls
+    golden_race_passes: GoldenRacePasses
+    passes_in_finales: PassesInFinales
+    passes_in_survival: PassesInSurvival
     traps: Traps
     airbrake_mix_up_trap: Trap0
     gotta_go_fast_trap: Trap1

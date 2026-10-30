@@ -15,7 +15,7 @@ Install Python 3.11+ with the Windows launcher. Connect creates its private venv
 Current bridge.lock remains on disk intentionally; OS ownership ends when the process exits. Do not delete it while a bridge runs. Never broadly kill unrelated Python processes.
 
 For a game crash, capture Unity's game log before relaunch overwrites it. A Steam launch option can direct it to an explicit writable path:
-`-logFile "G:\SteamLibrary\steamapps\common\BallisticNG\User\ap-crash-test.log"`
+`-logFile "<BallisticNG install>\User\ap-crash-test.log"`
 Replace that example path with the actual installation. Preserve existing launch options; remove the logging option when finished. The idle-demo crash is unresolved.
 
 ## Saves

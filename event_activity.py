@@ -1,11 +1,11 @@
 """Availability counts derived only from validated received items and server checks."""
 from medal_rules import locations
 
-def activity(manifest,owned,checked,hinted,required_medal=3,survival_milestones=False):
+def activity(manifest,owned,checked,hinted,required_medal=3,survival_milestones=False,universal=False):
     counts={name:[0,False] for name in manifest['campaigns']}
     names={v.get('gate',v['name']):v['id'] for group in ('track_items','speed_items') for v in manifest[group].values()}
     remaining={}
-    for row in locations(manifest,required_medal,survival_milestones):
+    for row in locations(manifest,required_medal,survival_milestones,universal):
         if row['id'] not in checked:remaining.setdefault(row['event_key'],set()).add(row['id'])
     for event in manifest['events']:
         if event['key'] not in remaining:continue
@@ -34,20 +34,20 @@ def own_hint_locations(hints,slot,valid_locations):
     return result
 
 
-def event_remaining(manifest,checked,required_medal=3,survival_milestones=True):
+def event_remaining(manifest,checked,required_medal=3,survival_milestones=True,universal=False):
     """Unchecked server locations per event, including optional Survival thresholds."""
     result={event['key']:0 for event in manifest['events']}
-    for row in locations(manifest,required_medal,survival_milestones):
+    for row in locations(manifest,required_medal,survival_milestones,universal):
         if row['id'] not in checked:result[row['event_key']]+=1
     return result
 
 
-def optional_only_events(manifest,checked,required_medal=3,survival_milestones=True):
+def optional_only_events(manifest,checked,required_medal=3,survival_milestones=True,universal=False):
     """Main clear confirmed; every remaining location is a non-progression bonus."""
     grouped={event['key']:[] for event in manifest['events']}
-    for row in locations(manifest,required_medal,survival_milestones):
+    for row in locations(manifest,required_medal,survival_milestones,universal):
         if row['id'] not in checked:grouped[row['event_key']].append(row)
     return {event['key'] for event in manifest['events']
-            if event['id'] in checked and grouped[event['key']]
+            if (universal or event['id'] in checked) and grouped[event['key']]
             and all(row['key']!=row['event_key'] and row['medal']>required_medal
                     for row in grouped[event['key']])}
